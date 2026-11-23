@@ -1,0 +1,230 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MIYA TRPG</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;padding:20px;
+ background:#101827;color:#edf2fa;
+ font-family:system-ui,sans-serif;
+}
+header{text-align:center;padding:30px 0}
+h1{color:#d9b56d;letter-spacing:5px}
+p{color:#aebbd0;line-height:1.7}
+.panel{
+ background:#192537;border:1px solid #394b65;
+ border-radius:15px;padding:20px;margin:18px auto;
+ max-width:700px;
+}
+button{
+ padding:12px 17px;margin:5px;border-radius:9px;
+ border:1px solid #657b99;background:#263750;
+ color:white;font-weight:bold;
+}
+button:active{opacity:.7}
+.primary{background:#c49b56;color:#17130d}
+input,select,textarea{
+ display:block;width:100%;padding:12px;margin:8px 0 16px;
+ background:#0d1623;color:white;border:1px solid #52647d;
+ border-radius:8px;
+}
+label{font-size:13px;color:#d9b56d}
+.hidden{display:none}
+.system{
+ display:block;width:100%;text-align:left;
+ margin:10px 0;background:#101a29;
+}
+.system.selected{border:2px solid #d9b56d}
+.card{
+ background:#101a29;padding:12px;margin:10px 0;
+ border-radius:10px;display:flex;gap:12px;
+ align-items:center;
+}
+.card img{width:65px;height:65px;object-fit:cover;border-radius:8px}
+</style>
+</head>
+<body>
+
+<header>
+<h1>MIYA TRPG</h1>
+<p>YOUR TABLE. YOUR WORLD. YOUR STORY.</p>
+<p>自分たちだけの物語を始めよう。</p>
+</header>
+
+<section class="panel" id="home">
+<h2>冒険の準備</h2>
+<p>遊びたいTRPGを選んで、キャラクターを作ろう！</p>
+<button class="primary" onclick="show('systems')">
+冒険を始める →
+</button>
+</section>
+
+<section class="panel hidden" id="systems">
+<h2>TRPG SYSTEM</h2>
+<p>遊びたい世界を選択してください。</p>
+
+<button class="system selected" onclick="choose(this,'ファンタジーTRPG')">⚔️ ファンタジーTRPG</button>
+<button class="system" onclick="choose(this,'ホラーTRPG')">🕯️ ホラーTRPG</button>
+<button class="system" onclick="choose(this,'現代異能TRPG')">✦ 現代異能TRPG</button>
+<button class="system" onclick="choose(this,'SF TRPG')">🚀 SF TRPG</button>
+<button class="system" onclick="choose(this,'学園TRPG')">🏫 学園TRPG</button>
+<button class="system" onclick="choose(this,'オリジナルTRPG')">✎ オリジナルTRPG</button>
+
+<button class="primary" onclick="openCharacter()">キャラクター作成 →</button>
+<button onclick="show('home')">戻る</button>
+</section>
+
+<section class="panel hidden" id="character">
+<h2>CHARACTER CREATION</h2>
+<p>自分だけのキャラクターを作ろう。</p>
+
+<label>キャラクター名</label>
+<input id="name" placeholder="名前を入力">
+
+<label>種族・出自</label>
+<select id="race">
+<option>人間</option>
+<option>エルフ</option>
+<option>ドワーフ</option>
+<option>獣人</option>
+<option>妖精族</option>
+<option>リザードマン</option>
+<option>その他</option>
+</select>
+
+<label>職業・役割</label>
+<select id="job">
+<option>戦士</option>
+<option>騎士</option>
+<option>剣士</option>
+<option>魔法使い</option>
+<option>僧侶</option>
+<option>弓使い</option>
+<option>盗賊</option>
+<option>召喚士</option>
+<option>その他</option>
+</select>
+
+<label>プロフィール</label>
+<textarea id="profile" placeholder="性格や過去、目的など"></textarea>
+
+<label>キャラクターイラスト</label>
+<input type="file" id="image" accept="image/*">
+
+<p id="selectedSystem"></p>
+
+<button class="primary" onclick="saveCharacter()">保存する</button>
+<button onclick="show('systems')">戻る</button>
+</section>
+
+<section class="panel hidden" id="characters">
+<h2>MY CHARACTERS</h2>
+<div id="characterList"></div>
+<button class="primary" onclick="show('systems')">＋ 新しいキャラクター</button>
+<button onclick="show('home')">タイトルへ戻る</button>
+</section>
+
+<script>
+let currentSystem="ファンタジーTRPG";
+
+function show(id){
+ document.querySelectorAll("section").forEach(s=>s.classList.add("hidden"));
+ document.getElementById(id).classList.remove("hidden");
+ window.scrollTo(0,0);
+}
+
+function choose(button,system){
+ currentSystem=system;
+ document.querySelectorAll(".system").forEach(b=>b.classList.remove("selected"));
+ button.classList.add("selected");
+}
+
+function openCharacter(){
+ document.getElementById("selectedSystem").textContent=
+ "使用システム："+currentSystem;
+ show("character");
+}
+
+function getCharacters(){
+ try{
+  return JSON.parse(localStorage.getItem("miyaCharacters")||"[]");
+ }catch(e){return [];}
+}
+
+function saveCharacter(){
+ const name=document.getElementById("name").value.trim();
+ if(!name){alert("名前を入力してください！");return;}
+
+ const file=document.getElementById("image").files[0];
+ const add=data=>{
+  const list=getCharacters();
+  list.push({
+   name:name,
+   race:document.getElementById("race").value,
+   job:document.getElementById("job").value,
+   profile:document.getElementById("profile").value,
+   system:currentSystem,
+   image:data
+  });
+  try{
+   localStorage.setItem("miyaCharacters",JSON.stringify(list));
+   renderCharacters();
+   show("characters");
+  }catch(e){
+   alert("保存できませんでした。画像を小さくして試してください。");
+  }
+ };
+
+ if(file){
+  if(file.size>1500000){
+   alert("画像は1.5MB以下にしてください。");
+   return;
+  }
+  const reader=new FileReader();
+  reader.onload=()=>add(reader.result);
+  reader.readAsDataURL(file);
+ }else{
+  add("");
+ }
+}
+
+function renderCharacters(){
+ const list=document.getElementById("characterList");
+ list.innerHTML="";
+ getCharacters().forEach((c,i)=>{
+  const card=document.createElement("div");
+  card.className="card";
+
+  if(c.image){
+   const img=document.createElement("img");
+   img.src=c.image;
+   card.appendChild(img);
+  }
+
+  const info=document.createElement("div");
+  const title=document.createElement("b");
+  title.textContent=c.name;
+  const detail=document.createElement("p");
+  detail.textContent=c.system+" / "+c.race+" / "+c.job;
+  const del=document.createElement("button");
+  del.textContent="削除";
+  del.onclick=()=>{
+   const arr=getCharacters();
+   arr.splice(i,1);
+   localStorage.setItem("miyaCharacters",JSON.stringify(arr));
+   renderCharacters();
+  };
+
+  info.append(title,detail,del);
+  card.appendChild(info);
+  list.appendChild(card);
+ });
+}
+</script>
+
+</body>
+</html>
