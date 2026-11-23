@@ -14,6 +14,7 @@ body{
 }
 header{text-align:center;padding:30px 0}
 h1{color:#d9b56d;letter-spacing:5px}
+h2{color:#d9b56d}
 p{color:#aebbd0;line-height:1.7}
 .panel{
  background:#192537;border:1px solid #394b65;
@@ -32,6 +33,7 @@ input,select,textarea{
  background:#0d1623;color:white;border:1px solid #52647d;
  border-radius:8px;
 }
+textarea{min-height:85px;resize:vertical}
 label{font-size:13px;color:#d9b56d}
 .hidden{display:none}
 .system{
@@ -40,11 +42,52 @@ label{font-size:13px;color:#d9b56d}
 }
 .system.selected{border:2px solid #d9b56d}
 .card{
- background:#101a29;padding:12px;margin:10px 0;
- border-radius:10px;display:flex;gap:12px;
- align-items:center;
+ background:#101a29;padding:12px;margin:12px 0;
+ border:1px solid #394b65;border-radius:12px;
+ display:flex;gap:14px;align-items:center;
 }
-.card img{width:65px;height:65px;object-fit:cover;border-radius:8px}
+.card img{
+ width:85px;height:105px;object-fit:cover;
+ border-radius:8px;flex-shrink:0;
+}
+.card img.icon{
+ width:85px;height:85px;border-radius:50%;
+}
+.card-info{flex:1;min-width:0}
+.card-info p{margin:5px 0}
+.card-actions{display:flex;flex-wrap:wrap}
+.sub{font-size:12px;color:#91a2bb}
+.stats{
+ display:grid;grid-template-columns:repeat(2,1fr);gap:10px;
+}
+.stat{
+ background:#101a29;border:1px solid #394b65;
+ padding:12px;border-radius:9px;
+}
+.stat label{display:block}
+.stat input{margin:7px 0 0}
+.detail-image{
+ display:block;width:100%;max-height:420px;
+ object-fit:contain;background:#0d1623;
+ border-radius:12px;margin:12px auto;
+}
+.detail-image.icon{
+ width:180px;height:180px;border-radius:50%;
+}
+.detail-block{
+ background:#101a29;border-radius:10px;
+ padding:14px;margin:12px 0;
+}
+.detail-block p{white-space:pre-wrap;margin:5px 0}
+.detail-block h3{color:#d9b56d;margin-top:0}
+.row{display:flex;gap:10px}
+.row>div{flex:1;min-width:0}
+@media(max-width:450px){
+ body{padding:12px}
+ .panel{padding:15px}
+ .card img{width:70px;height:90px}
+ .card img.icon{width:70px;height:70px}
+}
 </style>
 </head>
 <body>
@@ -61,75 +104,101 @@ label{font-size:13px;color:#d9b56d}
 <button class="primary" onclick="show('systems')">
 冒険を始める →
 </button>
+<button onclick="openCharacters()">キャラクター一覧</button>
 </section>
 
 <section class="panel hidden" id="systems">
 <h2>TRPG SYSTEM</h2>
 <p>遊びたい世界を選択してください。</p>
 
-<button class="system selected" onclick="choose(this,'ファンタジーTRPG')">⚔️ ファンタジーTRPG</button>
-<button class="system" onclick="choose(this,'ホラーTRPG')">🕯️ ホラーTRPG</button>
-<button class="system" onclick="choose(this,'現代異能TRPG')">✦ 現代異能TRPG</button>
-<button class="system" onclick="choose(this,'SF TRPG')">🚀 SF TRPG</button>
-<button class="system" onclick="choose(this,'学園TRPG')">🏫 学園TRPG</button>
-<button class="system" onclick="choose(this,'オリジナルTRPG')">✎ オリジナルTRPG</button>
+<button class="system selected" onclick="choose(this,'ファンタジーTRPG')">ファンタジーTRPG</button>
+<button class="system" onclick="choose(this,'ホラーTRPG')">ホラーTRPG</button>
+<button class="system" onclick="choose(this,'現代異能TRPG')">現代異能TRPG</button>
+<button class="system" onclick="choose(this,'SF TRPG')">SF TRPG</button>
+<button class="system" onclick="choose(this,'学園TRPG')">学園TRPG</button>
+<button class="system" onclick="choose(this,'オリジナルTRPG')">オリジナルTRPG</button>
 
 <button class="primary" onclick="openCharacter()">キャラクター作成 →</button>
+<button onclick="openCharacters()">キャラクター一覧</button>
 <button onclick="show('home')">戻る</button>
 </section>
 
 <section class="panel hidden" id="character">
-<h2>CHARACTER CREATION</h2>
+<h2 id="formTitle">CHARACTER CREATION</h2>
 <p>自分だけのキャラクターを作ろう。</p>
 
 <label>キャラクター名</label>
 <input id="name" placeholder="名前を入力">
 
 <label>種族・出自</label>
-<select id="race">
-<option>人間</option>
-<option>エルフ</option>
-<option>ドワーフ</option>
-<option>獣人</option>
-<option>妖精族</option>
-<option>リザードマン</option>
-<option>その他</option>
-</select>
+<input id="race" placeholder="例：人間、エルフ、記憶喪失">
 
 <label>職業・役割</label>
-<select id="job">
-<option>戦士</option>
-<option>騎士</option>
-<option>剣士</option>
-<option>魔法使い</option>
-<option>僧侶</option>
-<option>弓使い</option>
-<option>盗賊</option>
-<option>召喚士</option>
-<option>その他</option>
-</select>
+<input id="job" placeholder="例：戦士、魔法使い、探偵">
+
+<label>HP</label>
+<input id="hp" type="number" min="0" value="10">
+
+<label>MP</label>
+<input id="mp" type="number" min="0" value="10">
+
+<h3>能力値</h3>
+<div class="stats">
+<div><label>筋力</label><input id="str" type="number" value="10"></div>
+<div><label>敏捷</label><input id="agi" type="number" value="10"></div>
+<div><label>知力</label><input id="int" type="number" value="10"></div>
+<div><label>体力</label><input id="vit" type="number" value="10"></div>
+<div><label>精神</label><input id="men" type="number" value="10"></div>
+<div><label>器用</label><input id="dex" type="number" value="10"></div>
+</div>
+
+<label>装備</label>
+<textarea id="equipment" placeholder="武器、防具、アクセサリーなど"></textarea>
+
+<label>持ち物</label>
+<textarea id="inventory" placeholder="所持品やアイテムなど"></textarea>
+
+<label>スキル・特技</label>
+<textarea id="skills" placeholder="習得している能力など"></textarea>
 
 <label>プロフィール</label>
 <textarea id="profile" placeholder="性格や過去、目的など"></textarea>
 
 <label>キャラクターイラスト</label>
 <input type="file" id="image" accept="image/*">
+<p class="sub">画像を変更しない場合は、今の画像が維持されるよ。</p>
+
+<label>イラストの表示形式</label>
+<select id="imageMode">
+<option value="portrait">全身絵・縦長表示</option>
+<option value="icon">アイコン・丸型表示</option>
+</select>
 
 <p id="selectedSystem"></p>
 
 <button class="primary" onclick="saveCharacter()">保存する</button>
-<button onclick="show('systems')">戻る</button>
+<button onclick="openCharacters()">一覧へ戻る</button>
 </section>
 
 <section class="panel hidden" id="characters">
 <h2>MY CHARACTERS</h2>
+<p>作成したキャラクターたち。</p>
 <div id="characterList"></div>
-<button class="primary" onclick="show('systems')">＋ 新しいキャラクター</button>
+<button class="primary" onclick="newCharacter()">＋ 新しいキャラクター</button>
 <button onclick="show('home')">タイトルへ戻る</button>
+</section>
+
+<section class="panel hidden" id="detail">
+<h2>CHARACTER STATUS</h2>
+<div id="detailContent"></div>
+<button class="primary" onclick="editCharacter()">編集する</button>
+<button onclick="openCharacters()">一覧へ戻る</button>
 </section>
 
 <script>
 let currentSystem="ファンタジーTRPG";
+let editingIndex=-1;
+let viewingIndex=-1;
 
 function show(id){
  document.querySelectorAll("section").forEach(s=>s.classList.add("hidden"));
@@ -143,37 +212,88 @@ function choose(button,system){
  button.classList.add("selected");
 }
 
-function openCharacter(){
- document.getElementById("selectedSystem").textContent=
- "使用システム："+currentSystem;
- show("character");
-}
-
 function getCharacters(){
  try{
   return JSON.parse(localStorage.getItem("miyaCharacters")||"[]");
  }catch(e){return [];}
 }
 
+function openCharacter(){
+ editingIndex=-1;
+ resetForm();
+ document.getElementById("formTitle").textContent="CHARACTER CREATION";
+ document.getElementById("selectedSystem").textContent="使用システム："+currentSystem;
+ show("character");
+}
+
+function newCharacter(){
+ currentSystem="ファンタジーTRPG";
+ openCharacter();
+}
+
+function resetForm(){
+ document.getElementById("name").value="";
+ document.getElementById("race").value="";
+ document.getElementById("job").value="";
+ document.getElementById("hp").value=10;
+ document.getElementById("mp").value=10;
+ ["str","agi","int","vit","men","dex"].forEach(id=>{
+  document.getElementById(id).value=10;
+ });
+ ["equipment","inventory","skills","profile"].forEach(id=>{
+  document.getElementById(id).value="";
+ });
+ document.getElementById("image").value="";
+ document.getElementById("imageMode").value="portrait";
+}
+
+function openCharacters(){
+ renderCharacters();
+ show("characters");
+}
+
 function saveCharacter(){
  const name=document.getElementById("name").value.trim();
  if(!name){alert("名前を入力してください！");return;}
 
+ const oldList=getCharacters();
+ const old=editingIndex>=0?oldList[editingIndex]:null;
  const file=document.getElementById("image").files[0];
- const add=data=>{
-  const list=getCharacters();
-  list.push({
+
+ const save=data=>{
+  const c={
    name:name,
    race:document.getElementById("race").value,
    job:document.getElementById("job").value,
-   profile:document.getElementById("profile").value,
    system:currentSystem,
-   image:data
-  });
+   hp:document.getElementById("hp").value,
+   mp:document.getElementById("mp").value,
+   stats:{
+    str:document.getElementById("str").value,
+    agi:document.getElementById("agi").value,
+    int:document.getElementById("int").value,
+    vit:document.getElementById("vit").value,
+    men:document.getElementById("men").value,
+    dex:document.getElementById("dex").value
+   },
+   equipment:document.getElementById("equipment").value,
+   inventory:document.getElementById("inventory").value,
+   skills:document.getElementById("skills").value,
+   profile:document.getElementById("profile").value,
+   image:data,
+   imageMode:document.getElementById("imageMode").value
+  };
+
+  if(editingIndex>=0){
+   oldList[editingIndex]=c;
+  }else{
+   oldList.push(c);
+  }
+
   try{
-   localStorage.setItem("miyaCharacters",JSON.stringify(list));
-   renderCharacters();
-   show("characters");
+   localStorage.setItem("miyaCharacters",JSON.stringify(oldList));
+   editingIndex=-1;
+   openCharacters();
   }catch(e){
    alert("保存できませんでした。画像を小さくして試してください。");
   }
@@ -185,44 +305,155 @@ function saveCharacter(){
    return;
   }
   const reader=new FileReader();
-  reader.onload=()=>add(reader.result);
+  reader.onload=()=>save(reader.result);
   reader.readAsDataURL(file);
  }else{
-  add("");
+  save(old?old.image||"":"");
  }
+}
+
+function escapeHTML(value){
+ return String(value??"").replace(/[&<>"']/g,c=>({
+  "&":"&amp;","<":"&lt;",">":"&gt;",
+  '"':"&quot;","'":"&#39;"
+ }[c]));
 }
 
 function renderCharacters(){
  const list=document.getElementById("characterList");
  list.innerHTML="";
- getCharacters().forEach((c,i)=>{
+ const characters=getCharacters();
+
+ if(characters.length===0){
+  list.innerHTML="<p>まだキャラクターがいないよ。最初の一人を作ってみよう！</p>";
+  return;
+ }
+
+ characters.forEach((c,i)=>{
   const card=document.createElement("div");
   card.className="card";
 
   if(c.image){
    const img=document.createElement("img");
    img.src=c.image;
+   if(c.imageMode==="icon")img.className="icon";
+   img.alt="キャラクターイラスト";
    card.appendChild(img);
   }
 
   const info=document.createElement("div");
+  info.className="card-info";
+
   const title=document.createElement("b");
   title.textContent=c.name;
+
   const detail=document.createElement("p");
-  detail.textContent=c.system+" / "+c.race+" / "+c.job;
+  detail.textContent=(c.system||"")+
+   " / "+(c.race||"未設定")+" / "+(c.job||"未設定");
+
+  const actions=document.createElement("div");
+  actions.className="card-actions";
+
+  const open=document.createElement("button");
+  open.textContent="詳細を見る";
+  open.onclick=()=>openDetail(i);
+
   const del=document.createElement("button");
   del.textContent="削除";
-  del.onclick=()=>{
-   const arr=getCharacters();
-   arr.splice(i,1);
-   localStorage.setItem("miyaCharacters",JSON.stringify(arr));
-   renderCharacters();
-  };
+  del.onclick=()=>deleteCharacter(i);
 
-  info.append(title,detail,del);
+  actions.append(open,del);
+  info.append(title,detail,actions);
   card.appendChild(info);
   list.appendChild(card);
  });
+}
+
+function openDetail(index){
+ viewingIndex=index;
+ const c=getCharacters()[index];
+ if(!c)return;
+
+ const content=document.getElementById("detailContent");
+ const s=c.stats||{};
+ let html="";
+
+ html+=`<h2>${escapeHTML(c.name)}</h2>`;
+ html+=`<p>${escapeHTML(c.system||"")}</p>`;
+
+ if(c.image){
+  const mode=c.imageMode==="icon"?"icon":"";
+  html+=`<img class="detail-image ${mode}" src="${escapeHTML(c.image)}" alt="キャラクターイラスト">`;
+ }
+
+ html+=`<div class="detail-block"><h3>基本情報</h3>
+ <p>種族・出自：${escapeHTML(c.race||"未設定")}</p>
+ <p>職業・役割：${escapeHTML(c.job||"未設定")}</p></div>`;
+
+ html+=`<div class="stats">
+ <div class="stat">HP：${escapeHTML(c.hp??10)}</div>
+ <div class="stat">MP：${escapeHTML(c.mp??10)}</div>
+ <div class="stat">筋力：${escapeHTML(s.str??10)}</div>
+ <div class="stat">敏捷：${escapeHTML(s.agi??10)}</div>
+ <div class="stat">知力：${escapeHTML(s.int??10)}</div>
+ <div class="stat">体力：${escapeHTML(s.vit??10)}</div>
+ <div class="stat">精神：${escapeHTML(s.men??10)}</div>
+ <div class="stat">器用：${escapeHTML(s.dex??10)}</div>
+ </div>`;
+
+ html+=detailBlock("装備",c.equipment);
+ html+=detailBlock("持ち物",c.inventory);
+ html+=detailBlock("スキル・特技",c.skills);
+ html+=detailBlock("プロフィール",c.profile);
+
+ content.innerHTML=html;
+ show("detail");
+}
+
+function detailBlock(title,value){
+ return `<div class="detail-block"><h3>${title}</h3>
+ <p>${escapeHTML(value||"なし")}</p></div>`;
+}
+
+function editCharacter(){
+ const c=getCharacters()[viewingIndex];
+ if(!c)return;
+
+ editingIndex=viewingIndex;
+ currentSystem=c.system||"ファンタジーTRPG";
+
+ document.getElementById("name").value=c.name||"";
+ document.getElementById("race").value=c.race||"";
+ document.getElementById("job").value=c.job||"";
+ document.getElementById("hp").value=c.hp??10;
+ document.getElementById("mp").value=c.mp??10;
+
+ const s=c.stats||{};
+ document.getElementById("str").value=s.str??10;
+ document.getElementById("agi").value=s.agi??10;
+ document.getElementById("int").value=s.int??10;
+ document.getElementById("vit").value=s.vit??10;
+ document.getElementById("men").value=s.men??10;
+ document.getElementById("dex").value=s.dex??10;
+
+ document.getElementById("equipment").value=c.equipment||"";
+ document.getElementById("inventory").value=c.inventory||"";
+ document.getElementById("skills").value=c.skills||"";
+ document.getElementById("profile").value=c.profile||"";
+ document.getElementById("image").value="";
+ document.getElementById("imageMode").value=c.imageMode||"portrait";
+
+ document.getElementById("formTitle").textContent="EDIT CHARACTER";
+ document.getElementById("selectedSystem").textContent="使用システム："+currentSystem;
+ show("character");
+}
+
+function deleteCharacter(index){
+ if(!confirm("このキャラクターを削除する？"))return;
+ const list=getCharacters();
+ list.splice(index,1);
+ localStorage.setItem("miyaCharacters",JSON.stringify(list));
+ renderCharacters();
 }
 </script>
 
