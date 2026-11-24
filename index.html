@@ -759,6 +759,7 @@ async function closeRoom(){
 }
 window.closeRoom=closeRoom;
 
+
 async function leaveRoom(){
  if(!activeRoom)return;
 
@@ -768,7 +769,12 @@ async function leaveRoom(){
   console.error(e);
  }
 
- 
+ leaveRoomLocal();
+ show("home");
+}
+window.leaveRoom=leaveRoom;
+
+
 function leaveRoomLocal(){
  if(roomUnsubscribe)roomUnsubscribe();
  if(playersUnsubscribe)playersUnsubscribe();
@@ -778,7 +784,7 @@ function leaveRoomLocal(){
  activeRoom=null;
  isGM=false;
 
- // 退出後、参加ボタンを再び有効化
+ // 退出後、ボタンを再び有効化
  $("joinRoomButton").disabled=false;
  $("createRoomButton").disabled=false;
 }
