@@ -7,96 +7,40 @@
 <title>MIYA TRPG</title>
 <style>
 *{box-sizing:border-box}
-body{
- margin:0;padding:20px;
- background:#101827;color:#edf2fa;
- font-family:system-ui,sans-serif;
-}
-header{text-align:center;padding:30px 0}
-h1{color:#d9b56d;letter-spacing:5px}
-h2{color:#d9b56d}
+body{margin:0;padding:16px;background:#101827;color:#edf2fa;font-family:system-ui,sans-serif}
+header{text-align:center;padding:24px 0}
+h1,h2,h3{color:#d9b56d}
+h1{letter-spacing:5px}
 p{color:#aebbd0;line-height:1.7}
-.panel{
- background:#192537;border:1px solid #394b65;
- border-radius:15px;padding:20px;margin:18px auto;
- max-width:700px;
-}
-button{
- padding:12px 17px;margin:5px;border-radius:9px;
- border:1px solid #657b99;background:#263750;
- color:white;font-weight:bold;
-}
-button:active{opacity:.7}
-button:disabled{opacity:.4;cursor:not-allowed}
+.panel{background:#192537;border:1px solid #394b65;border-radius:15px;padding:18px;margin:16px auto;max-width:720px}
+button{padding:12px 16px;margin:5px;border-radius:9px;border:1px solid #657b99;background:#263750;color:white;font-weight:bold}
+button:disabled{opacity:.4}
 .primary{background:#c49b56;color:#17130d}
-input,select,textarea{
- display:block;width:100%;padding:12px;margin:8px 0 16px;
- background:#0d1623;color:white;border:1px solid #52647d;
- border-radius:8px;
-}
-textarea{min-height:85px;resize:vertical}
+input,select,textarea{display:block;width:100%;padding:12px;margin:8px 0 16px;background:#0d1623;color:white;border:1px solid #52647d;border-radius:8px}
+textarea{min-height:85px}
 label{font-size:13px;color:#d9b56d}
 .hidden{display:none}
-.system{
- display:block;width:100%;text-align:left;
- margin:10px 0;background:#101a29;
-}
+.system{display:block;width:100%;text-align:left;margin:8px 0;background:#101a29}
 .system.selected{border:2px solid #d9b56d}
-.card{
- background:#101a29;padding:12px;margin:12px 0;
- border:1px solid #394b65;border-radius:12px;
- display:flex;gap:14px;align-items:center;
-}
-.card img{
- width:85px;height:105px;object-fit:cover;
- border-radius:8px;flex-shrink:0;
-}
-.card img.icon{
- width:85px;height:85px;border-radius:50%;
-}
+.card{background:#101a29;padding:12px;margin:12px 0;border:1px solid #394b65;border-radius:12px;display:flex;gap:12px;align-items:center}
+.card img{width:76px;height:90px;object-fit:cover;border-radius:8px}
+.card img.icon{width:76px;height:76px;border-radius:50%}
 .card-info{flex:1;min-width:0}
 .card-info p{margin:5px 0}
-.card-actions{display:flex;flex-wrap:wrap}
 .sub{font-size:12px;color:#91a2bb}
-.stats{
- display:grid;grid-template-columns:repeat(2,1fr);gap:10px;
-}
-.stat{
- background:#101a29;border:1px solid #394b65;
- padding:12px;border-radius:9px;
-}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.stat{background:#101a29;border:1px solid #394b65;padding:12px;border-radius:9px}
 .stat label{display:block}
-.stat input{margin:7px 0 0}
-.stat input[readonly]{
- text-align:center;
- font-size:20px;
- font-weight:bold;
- color:#d9b56d;
- background:#101a29;
- cursor:default;
-}
-.detail-image{
- display:block;width:100%;max-height:420px;
- object-fit:contain;background:#0d1623;
- border-radius:12px;margin:12px auto;
-}
-.detail-image.icon{
- width:180px;height:180px;border-radius:50%;
-}
-.detail-block{
- background:#101a29;border-radius:10px;
- padding:14px;margin:12px 0;
-}
+.stat input[readonly]{text-align:center;font-size:20px;font-weight:bold;color:#d9b56d;background:#101a29}
+.detail-block{background:#101a29;border-radius:10px;padding:14px;margin:12px 0}
 .detail-block p{white-space:pre-wrap;margin:5px 0}
-.detail-block h3{color:#d9b56d;margin-top:0}
-.row{display:flex;gap:10px}
-.row>div{flex:1;min-width:0}
-@media(max-width:450px){
- body{padding:12px}
- .panel{padding:15px}
- .card img{width:70px;height:90px}
- .card img.icon{width:70px;height:70px}
-}
+.detail-image{display:block;width:100%;max-height:360px;object-fit:contain;background:#0d1623;border-radius:12px;margin:12px auto}
+.detail-image.icon{width:180px;height:180px;border-radius:50%}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+.row>*{flex:1;min-width:120px}
+.room-code{font-size:36px;letter-spacing:8px;text-align:center;color:#d9b56d;font-weight:bold;padding:12px}
+.status{padding:10px;background:#101a29;border-radius:8px}
+@media(max-width:450px){body{padding:10px}.panel{padding:14px}}
 </style>
 </head>
 <body>
@@ -109,119 +53,59 @@ label{font-size:13px;color:#d9b56d}
 
 <section class="panel" id="home">
 <h2>冒険の準備</h2>
-<p>遊びたいTRPGを選んで、キャラクターを作ろう！</p>
-<button class="primary" onclick="show('systems')">
-冒険を始める →
-</button>
+<p>まずはキャラクターを作ろう。</p>
+<button class="primary" onclick="openCharacter()">キャラクター作成</button>
+<button onclick="openCreateRoom()">部屋を作る（GM）</button>
+<button onclick="openJoinRoom()">部屋に参加する</button>
 <button onclick="openCharacters()">キャラクター一覧</button>
-</section>
-
-<section class="panel hidden" id="systems">
-<h2>TRPG SYSTEM</h2>
-<p>遊びたい世界を選択してください。</p>
-
-<button class="system selected" onclick="choose(this,'ファンタジーTRPG')">ファンタジーTRPG</button>
-<button class="system" onclick="choose(this,'ホラーTRPG')">ホラーTRPG</button>
-<button class="system" onclick="choose(this,'現代異能TRPG')">現代異能TRPG</button>
-<button class="system" onclick="choose(this,'SF TRPG')">SF TRPG</button>
-<button class="system" onclick="choose(this,'学園TRPG')">学園TRPG</button>
-<button class="system" onclick="choose(this,'オリジナルTRPG')">オリジナルTRPG</button>
-
-<button class="primary" onclick="openCharacter()">キャラクター作成 →</button>
-<button onclick="openCharacters()">キャラクター一覧</button>
-<button onclick="show('home')">戻る</button>
+<p class="sub" id="connectionStatus">Firebaseに接続しています…</p>
 </section>
 
 <section class="panel hidden" id="character">
 <h2 id="formTitle">CHARACTER CREATION</h2>
-<p>自分だけのキャラクターを作ろう。</p>
-
 <label>キャラクター名</label>
 <input id="name" placeholder="名前を入力">
-
 <label>種族・出自</label>
 <input id="race" placeholder="例：人間、エルフ、記憶喪失">
-
 <label>職業・役割</label>
 <input id="job" placeholder="例：戦士、魔法使い、探偵">
-
-<label>HP</label>
-<input id="hp" type="number" min="0" value="10">
-
-<label>MP</label>
-<input id="mp" type="number" min="0" value="10">
+<div class="row">
+<div><label>HP</label><input id="hp" type="number" min="0" value="10"></div>
+<div><label>MP</label><input id="mp" type="number" min="0" value="10"></div>
+</div>
 
 <h3>能力値</h3>
-
 <div class="detail-block">
- <p>能力値ダイス：1D20 × 6項目</p>
- <p id="rollCount">残り振り直し：3回</p>
- <button type="button" class="primary" id="rollButton" onclick="rollStats()">
-  ダイスを振る
- </button>
- <p class="sub" id="rollMessage">ダイスを振ると6つの能力値が決まります。</p>
+<p>能力値ダイス：1D20 × 6項目</p>
+<p id="rollCount">残り振り直し：3回</p>
+<button type="button" class="primary" id="rollButton" onclick="rollStats()">ダイスを振る</button>
+<p class="sub" id="rollMessage">ダイスを振ると6つの能力値が決まります。</p>
 </div>
-
 <div class="stats">
-<div class="stat">
- <label>筋力</label>
- <input id="str" type="number" readonly value="10">
+<div class="stat"><label>筋力</label><input id="str" type="number" readonly value="10"></div>
+<div class="stat"><label>敏捷</label><input id="agi" type="number" readonly value="10"></div>
+<div class="stat"><label>知力</label><input id="int" type="number" readonly value="10"></div>
+<div class="stat"><label>体力</label><input id="vit" type="number" readonly value="10"></div>
+<div class="stat"><label>精神</label><input id="men" type="number" readonly value="10"></div>
+<div class="stat"><label>器用</label><input id="dex" type="number" readonly value="10"></div>
 </div>
-<div class="stat">
- <label>敏捷</label>
- <input id="agi" type="number" readonly value="10">
-</div>
-<div class="stat">
- <label>知力</label>
- <input id="int" type="number" readonly value="10">
-</div>
-<div class="stat">
- <label>体力</label>
- <input id="vit" type="number" readonly value="10">
-</div>
-<div class="stat">
- <label>精神</label>
- <input id="men" type="number" readonly value="10">
-</div>
-<div class="stat">
- <label>器用</label>
- <input id="dex" type="number" readonly value="10">
-</div>
-</div>
-
-<label>装備</label>
-<textarea id="equipment" placeholder="武器、防具、アクセサリーなど"></textarea>
-
-<label>持ち物</label>
-<textarea id="inventory" placeholder="所持品やアイテムなど"></textarea>
-
-<label>スキル・特技</label>
-<textarea id="skills" placeholder="習得している能力など"></textarea>
-
-<label>プロフィール</label>
-<textarea id="profile" placeholder="性格や過去、目的など"></textarea>
-
+<label>装備</label><textarea id="equipment"></textarea>
+<label>持ち物</label><textarea id="inventory"></textarea>
+<label>スキル・特技</label><textarea id="skills"></textarea>
+<label>プロフィール</label><textarea id="profile"></textarea>
 <label>キャラクターイラスト</label>
 <input type="file" id="image" accept="image/*">
-<p class="sub">画像を変更しない場合は、今の画像が維持されるよ。</p>
-
+<p class="sub">画像を設定しない場合は仮のデフォルト画像を表示します。</p>
 <label>イラストの表示形式</label>
-<select id="imageMode">
-<option value="portrait">全身絵・縦長表示</option>
-<option value="icon">アイコン・丸型表示</option>
-</select>
-
-<p id="selectedSystem"></p>
-
+<select id="imageMode"><option value="portrait">全身絵・縦長表示</option><option value="icon">アイコン・丸型表示</option></select>
 <button class="primary" onclick="saveCharacter()">保存する</button>
 <button onclick="openCharacters()">一覧へ戻る</button>
 </section>
 
 <section class="panel hidden" id="characters">
 <h2>MY CHARACTERS</h2>
-<p>作成したキャラクターたち。</p>
 <div id="characterList"></div>
-<button class="primary" onclick="newCharacter()">＋ 新しいキャラクター</button>
+<button class="primary" onclick="openCharacter()">＋ 新しいキャラクター</button>
 <button onclick="show('home')">タイトルへ戻る</button>
 </section>
 
@@ -232,359 +116,319 @@ label{font-size:13px;color:#d9b56d}
 <button onclick="openCharacters()">一覧へ戻る</button>
 </section>
 
-<script>
-let currentSystem="ファンタジーTRPG";
-let editingIndex=-1;
-let viewingIndex=-1;
+<section class="panel hidden" id="createRoom">
+<h2>部屋を作る（GM）</h2>
+<p>部屋で使用するキャラクターを選んでください。</p>
+<label>使用キャラクター</label>
+<select id="gmCharacter"></select>
+<p class="sub">部屋を作った人がゲームマスターになります。</p>
+<button class="primary" onclick="createRoom()">部屋を作成する</button>
+<button onclick="show('home')">戻る</button>
+</section>
 
-let remainingRolls=3;
-const statIds=["str","agi","int","vit","men","dex"];
+<section class="panel hidden" id="joinRoom">
+<h2>部屋に参加する</h2>
+<p>GMから教えてもらった6桁の番号を入力してください。</p>
+<label>部屋番号</label>
+<input id="joinCode" inputmode="numeric" maxlength="6" placeholder="例：123456">
+<label>使用キャラクター</label>
+<select id="joinCharacter"></select>
+<button class="primary" onclick="joinRoom()">参加する</button>
+<button onclick="show('home')">戻る</button>
+</section>
 
-function show(id){
+<section class="panel hidden" id="room">
+<h2>ONLINE SESSION</h2>
+<p>部屋番号</p>
+<div class="room-code" id="roomCodeDisplay">------</div>
+<p class="sub">この番号を一緒に遊ぶ人に共有してください。</p>
+<div class="detail-block">
+<h3>参加者</h3>
+<div id="playerList">読み込み中…</div>
+</div>
+<div class="detail-block">
+<h3>ゲームモード選択</h3>
+<p>参加者全員が選択できます。選んだモードは全員に反映されます。</p>
+<div id="systemButtons"></div>
+<p>現在のモード：</p>
+<h3 id="currentSystemDisplay">未選択</h3>
+</div>
+<p class="status" id="roomStatus">部屋に接続しています…</p>
+<button onclick="leaveRoom()">部屋から退出する</button>
+<button id="deleteRoomButton" class="hidden" onclick="deleteRoom()">部屋を解散する（GM）</button>
+</section>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/13.4.0/firebase-app.js";
+import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/13.4.0/firebase-auth.js";
+import {
+ getFirestore, doc, getDoc, setDoc, updateDoc, deleteDoc,
+ collection, onSnapshot, serverTimestamp
+} from "https://www.gstatic.com/firebasejs/13.4.0/firebase-firestore.js";
+
+const firebaseConfig = {
+ apiKey: "AIzaSyCD3-wsNC_HBTuOarpJ41vgKXV0rpAKE14",
+ authDomain: "miya-trpg.firebaseapp.com",
+ projectId: "miya-trpg",
+ storageBucket: "miya-trpg.firebasestorage.app",
+ messagingSenderId: "604758546167",
+ appId: "1:604758546167:web:55e88798479ecb5bade5f2",
+ measurementId: "G-1GVH93T9CC"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+let myUid = null;
+let editingIndex = -1;
+let viewingIndex = -1;
+let remainingRolls = 3;
+let activeRoomCode = null;
+let activeRoomIsGM = false;
+let stopRoomListener = null;
+let stopPlayersListener = null;
+let currentSystem = "";
+const statIds = ["str","agi","int","vit","men","dex"];
+const systems = ["クトゥルフ神話TRPG","ファンタジーTRPG","ホラーTRPG","現代異能TRPG","SF TRPG","学園TRPG","オリジナルTRPG"];
+
+const defaultImage = "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(
+'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 400"><rect width="300" height="400" fill="#192537"/><circle cx="150" cy="135" r="65" fill="#d9b56d"/><path d="M40 390 Q45 245 150 235 Q255 245 260 390" fill="#52647d"/><path d="M85 125 Q95 35 170 65 Q230 80 220 145 Q195 105 160 105 Q120 105 85 155Z" fill="#101827"/><circle cx="128" cy="140" r="6" fill="#101827"/><circle cx="174" cy="140" r="6" fill="#101827"/><path d="M135 178 Q150 188 165 178" fill="none" stroke="#101827" stroke-width="5" stroke-linecap="round"/><text x="150" y="365" text-anchor="middle" fill="#d9b56d" font-size="18">MIYA TRPG</text></svg>'
+);
+
+window.show = function(id){
  document.querySelectorAll("section").forEach(s=>s.classList.add("hidden"));
  document.getElementById(id).classList.remove("hidden");
  window.scrollTo(0,0);
-}
-
-function choose(button,system){
- currentSystem=system;
- document.querySelectorAll(".system").forEach(b=>b.classList.remove("selected"));
- button.classList.add("selected");
-}
+};
 
 function getCharacters(){
- try{
-  return JSON.parse(localStorage.getItem("miyaCharacters")||"[]");
- }catch(e){return [];}
+ try{return JSON.parse(localStorage.getItem("miyaCharacters")||"[]");}
+ catch(e){return [];}
 }
+function setCharacters(list){localStorage.setItem("miyaCharacters",JSON.stringify(list));}
+function escapeHTML(value){
+ return String(value??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+function characterImage(c){return c.image||defaultImage;}
 
-/* ダイス機能 */
+signInAnonymously(auth).then(result=>{
+ myUid=result.user.uid;
+ document.getElementById("connectionStatus").textContent="Firebase接続済み";
+}).catch(error=>{
+ console.error(error);
+ document.getElementById("connectionStatus").textContent="Firebase接続エラー："+error.message;
+ alert("Firebaseに接続できませんでした。Authenticationの匿名ログイン設定を確認してください。");
+});
 
 function resetDice(){
  remainingRolls=3;
-
- document.getElementById("rollCount").textContent=
-  "残り振り直し："+remainingRolls+"回";
-
+ document.getElementById("rollCount").textContent="残り振り直し：3回";
  document.getElementById("rollButton").disabled=false;
-
- document.getElementById("rollMessage").textContent=
-  "ダイスを振ると6つの能力値が決まります。";
+ document.getElementById("rollMessage").textContent="ダイスを振ると6つの能力値が決まります。";
 }
-
-function rollStats(){
- if(remainingRolls<=0){
-  alert("ダイスは3回までです！");
-  return;
- }
-
- const results=[];
-
- for(let i=0;i<6;i++){
-  const number=Math.floor(Math.random()*20)+1;
-  results.push(number);
- }
-
- statIds.forEach((id,index)=>{
-  document.getElementById(id).value=results[index];
- });
-
+window.rollStats=function(){
+ if(remainingRolls<=0)return alert("ダイスは3回までです！");
+ const results=statIds.map(()=>Math.floor(Math.random()*20)+1);
+ statIds.forEach((id,i)=>document.getElementById(id).value=results[i]);
  remainingRolls--;
-
- document.getElementById("rollCount").textContent=
-  "残り振り直し："+remainingRolls+"回";
-
- document.getElementById("rollMessage").textContent=
-  "出目："+results.join(" / ");
-
- if(remainingRolls===0){
-  document.getElementById("rollButton").disabled=true;
-  document.getElementById("rollMessage").textContent+=
-   "　ダイスは終了です！";
- }
-}
-
-function disableDiceForEdit(){
- remainingRolls=0;
-
- document.getElementById("rollCount").textContent=
-  "編集モード";
-
- document.getElementById("rollButton").disabled=true;
-
- document.getElementById("rollMessage").textContent=
-  "保存済みキャラクターの能力値は変更できません。";
-}
-
-/* キャラクター作成 */
-
-function openCharacter(){
- editingIndex=-1;
- resetForm();
- resetDice();
-
- document.getElementById("formTitle").textContent="CHARACTER CREATION";
- document.getElementById("selectedSystem").textContent=
-  "使用システム："+currentSystem;
-
- show("character");
-}
-
-function newCharacter(){
- currentSystem="ファンタジーTRPG";
- openCharacter();
-}
+ document.getElementById("rollCount").textContent="残り振り直し："+remainingRolls+"回";
+ document.getElementById("rollMessage").textContent="出目："+results.join(" / ");
+ if(remainingRolls===0)document.getElementById("rollButton").disabled=true;
+};
 
 function resetForm(){
- document.getElementById("name").value="";
- document.getElementById("race").value="";
- document.getElementById("job").value="";
+ ["name","race","job","equipment","inventory","skills","profile"].forEach(id=>document.getElementById(id).value="");
  document.getElementById("hp").value=10;
  document.getElementById("mp").value=10;
-
- statIds.forEach(id=>{
-  document.getElementById(id).value=10;
- });
-
- ["equipment","inventory","skills","profile"].forEach(id=>{
-  document.getElementById(id).value="";
- });
-
+ statIds.forEach(id=>document.getElementById(id).value=10);
  document.getElementById("image").value="";
  document.getElementById("imageMode").value="portrait";
 }
-
-function openCharacters(){
- renderCharacters();
- show("characters");
-}
-
-/* 保存 */
-
-function saveCharacter(){
+window.openCharacter=function(){
+ editingIndex=-1;resetForm();resetDice();
+ document.getElementById("formTitle").textContent="CHARACTER CREATION";
+ show("character");
+};
+window.saveCharacter=function(){
  const name=document.getElementById("name").value.trim();
-
- if(!name){
-  alert("名前を入力してください！");
-  return;
- }
-
- const oldList=getCharacters();
- const old=editingIndex>=0?oldList[editingIndex]:null;
+ if(!name)return alert("キャラクター名を入力してください！");
+ const list=getCharacters();
+ const old=editingIndex>=0?list[editingIndex]:null;
  const file=document.getElementById("image").files[0];
-
- const save=data=>{
+ const save=imageData=>{
   const c={
-   name:name,
-   race:document.getElementById("race").value,
-   job:document.getElementById("job").value,
-   system:currentSystem,
-   hp:document.getElementById("hp").value,
-   mp:document.getElementById("mp").value,
-   stats:{
-    str:document.getElementById("str").value,
-    agi:document.getElementById("agi").value,
-    int:document.getElementById("int").value,
-    vit:document.getElementById("vit").value,
-    men:document.getElementById("men").value,
-    dex:document.getElementById("dex").value
-   },
+   name,race:document.getElementById("race").value,job:document.getElementById("job").value,
+   hp:document.getElementById("hp").value,mp:document.getElementById("mp").value,
+   stats:Object.fromEntries(statIds.map(id=>[id,document.getElementById(id).value])),
    equipment:document.getElementById("equipment").value,
    inventory:document.getElementById("inventory").value,
    skills:document.getElementById("skills").value,
    profile:document.getElementById("profile").value,
-   image:data,
-   imageMode:document.getElementById("imageMode").value
+   image:imageData,imageMode:document.getElementById("imageMode").value
   };
-
-  if(editingIndex>=0){
-   oldList[editingIndex]=c;
-  }else{
-   oldList.push(c);
-  }
-
-  try{
-   localStorage.setItem("miyaCharacters",JSON.stringify(oldList));
-   editingIndex=-1;
-   openCharacters();
-  }catch(e){
-   alert("保存できませんでした。画像を小さくして試してください。");
-  }
+  if(editingIndex>=0)list[editingIndex]=c;else list.push(c);
+  try{setCharacters(list);editingIndex=-1;openCharacters();}
+  catch(e){alert("保存できませんでした。画像を小さくしてください。");}
  };
-
  if(file){
-  if(file.size>1500000){
-   alert("画像は1.5MB以下にしてください。");
-   return;
-  }
-
-  const reader=new FileReader();
-  reader.onload=()=>save(reader.result);
-  reader.readAsDataURL(file);
- }else{
-  save(old?old.image||"":"");
- }
-}
-
-/* 表示用 */
-
-function escapeHTML(value){
- return String(value??"").replace(/[&<>"']/g,c=>({
-  "&":"&amp;","<":"&lt;",">":"&gt;",
-  '"':"&quot;","'":"&#39;"
- }[c]));
-}
-
+  if(file.size>1500000)return alert("画像は1.5MB以下にしてください。");
+  const reader=new FileReader();reader.onload=()=>save(reader.result);reader.readAsDataURL(file);
+ }else save(old?old.image||"": "");
+};
+window.openCharacters=function(){renderCharacters();show("characters");};
 function renderCharacters(){
- const list=document.getElementById("characterList");
- list.innerHTML="";
-
- const characters=getCharacters();
-
- if(characters.length===0){
-  list.innerHTML="<p>まだキャラクターがいないよ。最初の一人を作ってみよう！</p>";
-  return;
- }
-
- characters.forEach((c,i)=>{
-  const card=document.createElement("div");
-  card.className="card";
-
-  if(c.image){
-   const img=document.createElement("img");
-   img.src=c.image;
-   if(c.imageMode==="icon")img.className="icon";
-   img.alt="キャラクターイラスト";
-   card.appendChild(img);
-  }
-
-  const info=document.createElement("div");
-  info.className="card-info";
-
-  const title=document.createElement("b");
-  title.textContent=c.name;
-
-  const detail=document.createElement("p");
-  detail.textContent=(c.system||"")+
-   " / "+(c.race||"未設定")+" / "+(c.job||"未設定");
-
-  const actions=document.createElement("div");
-  actions.className="card-actions";
-
-  const open=document.createElement("button");
-  open.textContent="詳細を見る";
-  open.onclick=()=>openDetail(i);
-
-  const del=document.createElement("button");
-  del.textContent="削除";
-  del.onclick=()=>deleteCharacter(i);
-
-  actions.append(open,del);
-  info.append(title,detail,actions);
-  card.appendChild(info);
-  list.appendChild(card);
+ const box=document.getElementById("characterList");box.innerHTML="";
+ const list=getCharacters();
+ if(!list.length){box.innerHTML="<p>まだキャラクターがいないよ。</p>";return;}
+ list.forEach((c,i)=>{
+  const card=document.createElement("div");card.className="card";
+  const img=document.createElement("img");img.src=characterImage(c);if(c.imageMode==="icon")img.className="icon";
+  const info=document.createElement("div");info.className="card-info";
+  info.innerHTML="<b>"+escapeHTML(c.name)+"</b><p>"+escapeHTML(c.race||"未設定")+" / "+escapeHTML(c.job||"未設定")+"</p>";
+  const open=document.createElement("button");open.textContent="詳細";open.onclick=()=>openDetail(i);
+  const del=document.createElement("button");del.textContent="削除";del.onclick=()=>deleteCharacter(i);
+  info.append(open,del);card.append(img,info);box.append(card);
  });
 }
-
-/* キャラクター詳細 */
-
-function openDetail(index){
- viewingIndex=index;
- const c=getCharacters()[index];
- if(!c)return;
-
- const content=document.getElementById("detailContent");
+function deleteCharacter(i){
+ if(!confirm("このキャラクターを削除しますか？"))return;
+ const list=getCharacters();list.splice(i,1);setCharacters(list);renderCharacters();
+}
+window.openDetail=function(i){
+ viewingIndex=i;const c=getCharacters()[i];if(!c)return;
  const s=c.stats||{};
- let html="";
-
- html+=`<h2>${escapeHTML(c.name)}</h2>`;
- html+=`<p>${escapeHTML(c.system||"")}</p>`;
-
- if(c.image){
-  const mode=c.imageMode==="icon"?"icon":"";
-  html+=`<img class="detail-image ${mode}" src="${escapeHTML(c.image)}" alt="キャラクターイラスト">`;
- }
-
- html+=`<div class="detail-block"><h3>基本情報</h3>
- <p>種族・出自：${escapeHTML(c.race||"未設定")}</p>
- <p>職業・役割：${escapeHTML(c.job||"未設定")}</p></div>`;
-
- html+=`<div class="stats">
- <div class="stat">HP：${escapeHTML(c.hp??10)}</div>
- <div class="stat">MP：${escapeHTML(c.mp??10)}</div>
- <div class="stat">筋力：${escapeHTML(s.str??10)}</div>
- <div class="stat">敏捷：${escapeHTML(s.agi??10)}</div>
- <div class="stat">知力：${escapeHTML(s.int??10)}</div>
- <div class="stat">体力：${escapeHTML(s.vit??10)}</div>
- <div class="stat">精神：${escapeHTML(s.men??10)}</div>
- <div class="stat">器用：${escapeHTML(s.dex??10)}</div>
- </div>`;
-
- html+=detailBlock("装備",c.equipment);
- html+=detailBlock("持ち物",c.inventory);
- html+=detailBlock("スキル・特技",c.skills);
- html+=detailBlock("プロフィール",c.profile);
-
- content.innerHTML=html;
- show("detail");
-}
-
-function detailBlock(title,value){
- return `<div class="detail-block"><h3>${title}</h3>
- <p>${escapeHTML(value||"なし")}</p></div>`;
-}
-
-/* 編集 */
-
-function editCharacter(){
- const c=getCharacters()[viewingIndex];
- if(!c)return;
-
+ let html="<h2>"+escapeHTML(c.name)+"</h2><p>"+escapeHTML(c.race||"")+" / "+escapeHTML(c.job||"")+"</p>";
+ html+='<img class="detail-image '+(c.imageMode==="icon"?"icon":"")+'" src="'+escapeHTML(characterImage(c))+'">';
+ html+="<div class='detail-block'><h3>基本情報</h3><p>HP："+escapeHTML(c.hp)+" / MP："+escapeHTML(c.mp)+"</p></div>";
+ html+="<div class='stats'>"+[
+ ["筋力",s.str],["敏捷",s.agi],["知力",s.int],["体力",s.vit],["精神",s.men],["器用",s.dex]
+ ].map(x=>"<div class='stat'>"+x[0]+"："+escapeHTML(x[1]??10)+"</div>").join("")+"</div>";
+ [["装備",c.equipment],["持ち物",c.inventory],["スキル・特技",c.skills],["プロフィール",c.profile]].forEach(x=>{
+  html+="<div class='detail-block'><h3>"+x[0]+"</h3><p>"+escapeHTML(x[1]||"なし")+"</p></div>";
+ });
+ document.getElementById("detailContent").innerHTML=html;show("detail");
+};
+window.editCharacter=function(){
+ const c=getCharacters()[viewingIndex];if(!c)return;
  editingIndex=viewingIndex;
- currentSystem=c.system||"ファンタジーTRPG";
-
- document.getElementById("name").value=c.name||"";
- document.getElementById("race").value=c.race||"";
- document.getElementById("job").value=c.job||"";
- document.getElementById("hp").value=c.hp??10;
- document.getElementById("mp").value=c.mp??10;
-
- const s=c.stats||{};
-
- document.getElementById("str").value=s.str??10;
- document.getElementById("agi").value=s.agi??10;
- document.getElementById("int").value=s.int??10;
- document.getElementById("vit").value=s.vit??10;
- document.getElementById("men").value=s.men??10;
- document.getElementById("dex").value=s.dex??10;
-
- document.getElementById("equipment").value=c.equipment||"";
- document.getElementById("inventory").value=c.inventory||"";
- document.getElementById("skills").value=c.skills||"";
- document.getElementById("profile").value=c.profile||"";
+ ["name","race","job","hp","mp","equipment","inventory","skills","profile"].forEach(id=>document.getElementById(id).value=c[id]??"");
+ const s=c.stats||{};statIds.forEach(id=>document.getElementById(id).value=s[id]??10);
  document.getElementById("image").value="";
  document.getElementById("imageMode").value=c.imageMode||"portrait";
-
  document.getElementById("formTitle").textContent="EDIT CHARACTER";
- document.getElementById("selectedSystem").textContent=
-  "使用システム："+currentSystem;
-
- disableDiceForEdit();
+ remainingRolls=0;document.getElementById("rollCount").textContent="編集モード";
+ document.getElementById("rollButton").disabled=true;
+ document.getElementById("rollMessage").textContent="編集モードでは能力値ダイスを振れません。";
  show("character");
+};
+
+function fillCharacterSelect(id){
+ const select=document.getElementById(id);select.innerHTML="";
+ const chars=getCharacters();
+ chars.forEach((c,i)=>{
+  const option=document.createElement("option");option.value=i;option.textContent=c.name;select.append(option);
+ });
 }
+window.openCreateRoom=function(){
+ if(!getCharacters().length){alert("部屋を作るには先にキャラクターを作成してください！");return;}
+ fillCharacterSelect("gmCharacter");show("createRoom");
+};
+window.openJoinRoom=function(){
+ if(!getCharacters().length){alert("部屋に参加するには先にキャラクターを作成してください！");return;}
+ fillCharacterSelect("joinCharacter");show("joinRoom");
+};
 
-/* 削除 */
+function randomCode(){return String(Math.floor(100000+Math.random()*900000));}
+window.createRoom=async function(){
+ if(!myUid)return alert("Firebaseに接続中です。少し待ってください。");
+ const chars=getCharacters();if(!chars.length)return alert("キャラクターを先に作成してください。");
+ const c=chars[Number(document.getElementById("gmCharacter").value)];
+ if(!c)return alert("キャラクターを選択してください。");
+ try{
+  let code,ref,snap;
+  for(let i=0;i<10;i++){
+   code=randomCode();ref=doc(db,"rooms",code);snap=await getDoc(ref);
+   if(!snap.exists())break;
+   code=null;
+  }
+  if(!code)throw new Error("部屋番号を作成できませんでした。もう一度お試しください。");
+  await setDoc(ref,{gmUid:myUid,system:"未選択",createdAt:serverTimestamp()});
+  await setDoc(doc(db,"rooms",code,"players",myUid),{
+   uid:myUid,name:c.name,joinedAt:serverTimestamp(),isGM:true
+  });
+  activeRoomIsGM=true;enterRoom(code);
+ }catch(e){console.error(e);alert("部屋を作れませんでした："+e.message);}
+};
 
-function deleteCharacter(index){
- if(!confirm("このキャラクターを削除する？"))return;
+window.joinRoom=async function(){
+ if(!myUid)return alert("Firebaseに接続中です。少し待ってください。");
+ const code=document.getElementById("joinCode").value.trim();
+ if(!/^\d{6}$/.test(code))return alert("6桁の部屋番号を入力してください。");
+ const chars=getCharacters();const c=chars[Number(document.getElementById("joinCharacter").value)];
+ if(!c)return alert("使用するキャラクターを選択してください。");
+ try{
+  const roomRef=doc(db,"rooms",code);const roomSnap=await getDoc(roomRef);
+  if(!roomSnap.exists())return alert("その部屋は見つかりませんでした。");
+  const playerRef=doc(db,"rooms",code,"players",myUid);
+  await setDoc(playerRef,{uid:myUid,name:c.name,joinedAt:serverTimestamp(),isGM:false});
+  activeRoomIsGM=false;enterRoom(code);
+ }catch(e){console.error(e);alert("参加できませんでした："+e.message);}
+};
 
- const list=getCharacters();
- list.splice(index,1);
-
- localStorage.setItem("miyaCharacters",JSON.stringify(list));
- renderCharacters();
+function enterRoom(code){
+ activeRoomCode=code;
+ document.getElementById("roomCodeDisplay").textContent=code;
+ document.getElementById("deleteRoomButton").classList.toggle("hidden",!activeRoomIsGM);
+ show("room");
+ if(stopRoomListener)stopRoomListener();
+ if(stopPlayersListener)stopPlayersListener();
+ stopRoomListener=onSnapshot(doc(db,"rooms",code),snap=>{
+  if(!snap.exists()){document.getElementById("roomStatus").textContent="この部屋は解散されました。";return;}
+  const data=snap.data();
+  document.getElementById("currentSystemDisplay").textContent=data.system||"未選択";
+  document.getElementById("roomStatus").textContent="オンライン接続中";
+ });
+ stopPlayersListener=onSnapshot(collection(db,"rooms",code,"players"),snap=>{
+  const box=document.getElementById("playerList");box.innerHTML="";
+  snap.forEach(player=>{
+   const p=player.data();
+   const line=document.createElement("p");
+   line.textContent=(p.name||"名前なし")+(p.isGM?" （GM）":"");
+   box.append(line);
+  });
+ });
+ const buttons=document.getElementById("systemButtons");buttons.innerHTML="";
+ systems.forEach(system=>{
+  const b=document.createElement("button");b.className="system";b.textContent=system;
+  b.onclick=()=>changeSystem(system);buttons.append(b);
+ });
 }
+async function changeSystem(system){
+ try{await updateDoc(doc(db,"rooms",activeRoomCode),{system});}
+ catch(e){alert("モードを変更できませんでした："+e.message);}
+}
+window.leaveRoom=async function(){
+ if(stopRoomListener)stopRoomListener();
+ if(stopPlayersListener)stopPlayersListener();
+ if(activeRoomCode&&myUid){
+  try{await deleteDoc(doc(db,"rooms",activeRoomCode,"players",myUid));}catch(e){}
+ }
+ activeRoomCode=null;activeRoomIsGM=false;show("home");
+};
+window.deleteRoom=async function(){
+ if(!activeRoomIsGM||!activeRoomCode)return;
+ if(!confirm("部屋を解散しますか？"))return;
+ try{
+  const players=await import("https://www.gstatic.com/firebasejs/13.4.0/firebase-firestore.js");
+  const snap=await players.getDocs(collection(db,"rooms",activeRoomCode,"players"));
+  for(const p of snap.docs)await deleteDoc(p.ref);
+  await deleteDoc(doc(db,"rooms",activeRoomCode));
+  if(stopRoomListener)stopRoomListener();
+  if(stopPlayersListener)stopPlayersListener();
+  activeRoomCode=null;activeRoomIsGM=false;show("home");
+ }catch(e){alert("部屋を解散できませんでした："+e.message);}
+};
 </script>
-
 </body>
 </html>
