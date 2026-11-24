@@ -268,14 +268,50 @@ function resetDice(){
  $("rollMessage").textContent="ダイスを振ると6つの能力値が決まります。";
 }
 
+function rollDice(count,sides){
+ let total=0;
+ for(let i=0;i<count;i++){
+  total+=Math.floor(Math.random()*sides)+1;
+ }
+ return total;
+}
+
 function rollStats(){
- if(remainingRolls<=0){alert("ダイスは3回までです！");return;}
- const results=[];
- for(let i=0;i<6;i++)results.push(Math.floor(Math.random()*20)+1);
- statIds.forEach((id,i)=>$(id).value=results[i]);
+ if(remainingRolls<=0){
+  alert("ダイスは3回までです！");
+  return;
+ }
+
+ // 第6版の能力値算出方式
+ $("str").value=rollDice(3,6)*5;
+ $("agi").value=rollDice(3,6)*5;
+ $("vit").value=rollDice(3,6)*5;
+ $("men").value=rollDice(3,6)*5;
+ $("app").value=rollDice(3,6)*5;
+
+ $("int").value=(rollDice(2,6)+6)*5;
+ $("siz").value=(rollDice(2,6)+6)*5;
+ $("edu").value=(rollDice(3,6)+3)*5;
+
+ // 独自能力値の器用
+ $("dex").value=rollDice(1,20);
+
+ // 派生ステータス
+ $("idea").value=Number($("int").value);
+ $("luck").value=Number($("men").value);
+ $("knowledge").value=Number($("edu").value);
+
+ // HP・MP・SAN
+ $("hp").value=Math.floor(
+  (Number($("vit").value)+Number($("siz").value))/10
+ );
+ $("mp").value=Math.floor(Number($("men").value)/5);
+ $("san").value=Number($("men").value);
+
  remainingRolls--;
  $("rollCount").textContent="残り振り直し："+remainingRolls+"回";
- $("rollMessage").textContent="出目："+results.join(" / ");
+ $("rollMessage").textContent="第6版の能力値を振りました！";
+
  if(remainingRolls===0){
   $("rollButton").disabled=true;
   $("rollMessage").textContent+="　ダイスは終了です！";
