@@ -510,7 +510,11 @@ function editCharacter(){
 
  const s=c.stats||{};
  statIds.forEach(id=>$(id).value=s[id]??10);
-
+$("san").value=c.san??50;
+$("idea").value=Number(s.int??50);
+$("luck").value=Number(s.men??50);
+$("knowledge").value=Number(s.edu??50);
+ 
  $("image").value="";
  $("imageMode").value=c.imageMode||"portrait";
  $("formTitle").textContent="EDIT CHARACTER";
