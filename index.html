@@ -143,13 +143,23 @@ label{font-size:13px;color:#d9b56d}
 <input id="mp" type="number" min="0" value="10">
 
 <h3>能力値</h3>
+
+<div class="detail-block">
+ <p>能力値ダイス：1D20 × 6項目</p>
+ <p id="rollCount">残り振り直し：3回</p>
+ <button type="button" class="primary" id="rollButton" onclick="rollStats()">
+  ダイスを振る
+ </button>
+</div>
+
 <div class="stats">
-<div><label>筋力</label><input id="str" type="number" value="10"></div>
-<div><label>敏捷</label><input id="agi" type="number" value="10"></div>
-<div><label>知力</label><input id="int" type="number" value="10"></div>
-<div><label>体力</label><input id="vit" type="number" value="10"></div>
-<div><label>精神</label><input id="men" type="number" value="10"></div>
-<div><label>器用</label><input id="dex" type="number" value="10"></div>
+
+<div><label>筋力</label><input id="str" readonly value="10"></div>
+<div><label>敏捷</label><input id="agi" readonly value="10"></div>
+<div><label>知力</label><input id="int" readonly value="10"></div>
+<div><label>体力</label><input id="vit" readonly value="10"></div>
+<div><label>精神</label><input id="men" readonly value="10"></div>
+<div><label>器用</label><input id="dex" readonly value="10"></div>
 </div>
 
 <label>装備</label>
