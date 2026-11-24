@@ -507,21 +507,29 @@ async function showCreateRoom(){
 }
 window.showCreateRoom=showCreateRoom;
 
+
 async function showJoin(){
  try{
   await waitForLogin();
+
+  // 参加画面を開くたびにボタンを有効化
+  $("joinRoomButton").disabled=false;
+
   if(!fillCharacterSelect("joinCharacter")){
    alert("参加するには先にキャラクターを作成してください！");
    show("character");
    return;
   }
+
   $("joinCode").value="";
   show("joinRoom");
+
  }catch(e){
   alert("ログインできませんでした："+e.message);
  }
 }
 window.showJoin=showJoin;
+
 
 function makeCode(){
  return String(Math.floor(100000+Math.random()*900000));
