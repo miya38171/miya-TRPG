@@ -139,6 +139,12 @@ label{font-size:13px;color:#d9b56d}
 <section class="panel hidden" id="createRoom">
 <h2>部屋を作る（GM）</h2>
 <p>使用するキャラクターを選んでください。</p>
+ <label>ゲームマスター方式</label>
+<select id="gmMode">
+<option value="ai">AIゲームマスター</option>
+<option value="human">人間ゲームマスター</option>
+</select>
+<p class="sub">AI GMを選ぶと、AIが進行役を担当することになります。</p>
 <label>キャラクター</label>
 <select id="gmCharacter"></select>
 <button class="primary" id="createRoomButton" onclick="createRoom()">部屋を作成する</button>
