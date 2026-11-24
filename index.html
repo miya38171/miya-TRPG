@@ -771,11 +771,7 @@ async function leaveRoom(){
   console.error(e);
  }
 
- leaveRoomLocal();
- show("home");
-}
-window.leaveRoom=leaveRoom;
-
+ 
 function leaveRoomLocal(){
  if(roomUnsubscribe)roomUnsubscribe();
  if(playersUnsubscribe)playersUnsubscribe();
@@ -784,7 +780,8 @@ function leaveRoomLocal(){
  playersUnsubscribe=null;
  activeRoom=null;
  isGM=false;
+
+ // 退出後、参加ボタンを再び有効化
+ $("joinRoomButton").disabled=false;
+ $("createRoomButton").disabled=false;
 }
-</script>
-</body>
-</html>
