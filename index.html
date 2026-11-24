@@ -328,13 +328,21 @@ function disableDiceForEdit(){
 
 function resetForm(){
  ["name","race","job","equipment","inventory","skills","profile"].forEach(id=>$(id).value="");
+
+ // 基本能力値
+ statIds.forEach(id=>$(id).value=50);
+
+ // 独自能力値「器用」
+ $("dex").value=10;
+
+ // 派生ステータス
  $("hp").value=10;
  $("mp").value=10;
  $("san").value=50;
-$("idea").value=50;
-$("luck").value=50;
-$("knowledge").value=50;
- statIds.forEach(id=>$(id).value=10);
+ $("idea").value=50;
+ $("luck").value=50;
+ $("knowledge").value=50;
+
  $("image").value="";
  $("imageMode").value="portrait";
 }
