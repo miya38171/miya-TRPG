@@ -371,12 +371,10 @@ function renderCharacters(){
   const card=document.createElement("div");
   card.className="card";
 
-  if(c.image){
-   const img=document.createElement("img");
-   img.src=c.image;
-   if(c.imageMode==="icon")img.className="icon";
-   card.appendChild(img);
-  }
+  const img=document.createElement("img");
+  img.src=c.image || "無題107_20261124115304.png";
+  if(c.imageMode==="icon")img.className="icon";
+  card.appendChild(img);
 
   const info=document.createElement("div");
   info.className="card-info";
@@ -413,9 +411,8 @@ function openDetail(index){
  const s=c.stats||{};
  let html=`<h2>${escapeHTML(c.name)}</h2><p>${escapeHTML(c.system||"")}</p>`;
 
- if(c.image){
-  html+=`<img class="detail-image ${c.imageMode==="icon"?"icon":""}" src="${escapeHTML(c.image)}">`;
- }
+ const displayImage=c.image || "無題107_20261124115304.png";
+ html+=`<img class="detail-image ${c.imageMode==="icon"?"icon":""}" src="${escapeHTML(displayImage)}">`;
 
  html+=`<div class="detail-block"><h3>基本情報</h3>
  <p>種族・出自：${escapeHTML(c.race||"未設定")}</p>
