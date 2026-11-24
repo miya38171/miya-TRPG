@@ -474,8 +474,16 @@ function openDetail(index){
  const s=c.stats||{};
  let html=`<h2>${escapeHTML(c.name)}</h2><p>${escapeHTML(c.system||"")}</p>`;
 
- const displayImage=c.image || "無題107_20261124115304.png";
- html+=`<img class="detail-image ${c.imageMode==="icon"?"icon":""}" src="${escapeHTML(displayImage)}">`;
+ const img=document.createElement("img");
+img.src=c.image || "無題107_20261124115304.png";
+
+img.onerror=function(){
+  this.onerror=null;
+  this.src="無題107_20261124115304.png";
+};
+
+if(c.imageMode==="icon")img.className="icon";
+card.appendChild(img);
 
  html+=`<div class="detail-block"><h3>基本情報</h3>
  <p>種族・出自：${escapeHTML(c.race||"未設定")}</p>
