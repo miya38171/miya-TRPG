@@ -330,6 +330,10 @@ function resetForm(){
  ["name","race","job","equipment","inventory","skills","profile"].forEach(id=>$(id).value="");
  $("hp").value=10;
  $("mp").value=10;
+ $("san").value=50;
+$("idea").value=50;
+$("luck").value=50;
+$("knowledge").value=50;
  statIds.forEach(id=>$(id).value=10);
  $("image").value="";
  $("imageMode").value="portrait";
@@ -367,6 +371,7 @@ function saveCharacter(){
    hp:$("hp").value,
    mp:$("mp").value,
    stats:Object.fromEntries(statIds.map(id=>[id,$(id).value])),
+   san:$("san").value,
    equipment:$("equipment").value,
    inventory:$("inventory").value,
    skills:$("skills").value,
