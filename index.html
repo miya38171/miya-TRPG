@@ -5,6 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>MIYA TRPG</title>
+
 <style>
 *{box-sizing:border-box}
 body{margin:0;padding:18px;background:#101827;color:#edf2fa;font-family:system-ui,sans-serif}
@@ -38,74 +39,26 @@ label{font-size:13px;color:#d9b56d}
 .detail-block p{white-space:pre-wrap;margin:5px 0}
 .detail-block h3{margin-top:0}
 .room-code{font-size:42px;letter-spacing:8px;text-align:center;color:#d9b56d;font-weight:bold}
-
-.player-item{
- background:#101a29;
- border:1px solid #394b65;
- border-radius:12px;
- padding:14px;
- margin:12px 0;
+.player-item{background:#101a29;border:1px solid #394b65;border-radius:12px;padding:14px;margin:12px 0}
+.player-header{display:flex;align-items:center;gap:14px;margin-bottom:12px}
+.player-image{width:90px;height:110px;object-fit:cover;border-radius:9px;background:#192537}
+.player-image.icon{width:80px;height:80px;border-radius:50%}
+.player-info{flex:1;min-width:0}
+.player-info h3{margin:0 0 6px}
+.player-info p{margin:4px 0;font-size:13px}
+.player-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.player-stat{background:#192537;padding:9px 5px;border-radius:7px;text-align:center;font-size:13px}
+.player-extra{margin-top:12px;font-size:13px;white-space:pre-wrap;overflow-wrap:anywhere}
+@media(max-width:450px){
+ body{padding:12px}
+ .panel{padding:15px}
+ .card img{width:70px;height:90px}
+ .card img.icon{width:70px;height:70px}
+ .player-stats{grid-template-columns:repeat(2,1fr)}
 }
-
-.player-header{
- display:flex;
- align-items:center;
- gap:14px;
- margin-bottom:12px;
-}
-
-.player-image{
- width:90px;
- height:110px;
- object-fit:cover;
- border-radius:9px;
- background:#192537;
-}
-
-.player-image.icon{
- width:80px;
- height:80px;
- border-radius:50%;
-}
-
-.player-info{
- flex:1;
- min-width:0;
-}
-
-.player-info h3{
- margin:0 0 6px;
-}
-
-.player-info p{
- margin:4px 0;
- font-size:13px;
-}
-
-.player-stats{
- display:grid;
- grid-template-columns:repeat(3,1fr);
- gap:7px;
-}
-
-.player-stat{
- background:#192537;
- padding:9px 5px;
- border-radius:7px;
- text-align:center;
- font-size:13px;
-}
-
-.player-extra{
- margin-top:12px;
- font-size:13px;
- white-space:pre-wrap;
- overflow-wrap:anywhere;
-}
-
-@media(max-width:450px){body{padding:12px}.panel{padding:15px}.card img{width:70px;height:90px}.card img.icon{width:70px;height:70px}}
 </style>
 </head>
+
 <body>
 
 <header>
@@ -129,12 +82,16 @@ label{font-size:13px;color:#d9b56d}
 
 <label>キャラクター名</label>
 <input id="name" placeholder="名前を入力">
+
 <label>種族・出自</label>
-<input id="race" placeholder="例：人間、エルフ、記憶喪失">
+<input id="race" placeholder="例：人間、記憶喪失">
+
 <label>職業・役割</label>
-<input id="job" placeholder="例：戦士、魔法使い、探偵">
+<input id="job" placeholder="例：探偵">
+
 <label>HP</label>
 <input id="hp" type="number" min="0" value="10">
+
 <label>MP</label>
 <input id="mp" type="number" min="0" value="10">
 
@@ -143,7 +100,7 @@ label{font-size:13px;color:#d9b56d}
 <p>クトゥルフ神話TRPG 第6版の能力値生成方式</p>
 <p id="rollCount">残り振り直し：3回</p>
 <button type="button" class="primary" id="rollButton" onclick="rollStats()">ダイスを振る</button>
-<p class="sub" id="rollMessage">ダイスを振ると6つの能力値が決まります。</p>
+<p class="sub" id="rollMessage">ダイスを振ると能力値が決まります。</p>
 </div>
 
 <div class="stats">
@@ -167,20 +124,26 @@ label{font-size:13px;color:#d9b56d}
 
 <label>装備</label>
 <textarea id="equipment"></textarea>
+
 <label>持ち物</label>
 <textarea id="inventory"></textarea>
+
 <label>スキル・特技</label>
 <textarea id="skills"></textarea>
+
 <label>プロフィール</label>
 <textarea id="profile"></textarea>
+
 <label>キャラクターイラスト</label>
 <input type="file" id="image" accept="image/*">
 <p class="sub">画像を変更しない場合は、今の画像が維持されるよ。</p>
+
 <label>イラストの表示形式</label>
 <select id="imageMode">
 <option value="portrait">全身絵・縦長表示</option>
 <option value="icon">アイコン・丸型表示</option>
 </select>
+
 <button class="primary" onclick="saveCharacter()">保存する</button>
 <button onclick="openCharacters()">一覧へ戻る</button>
 </section>
@@ -202,14 +165,17 @@ label{font-size:13px;color:#d9b56d}
 <section class="panel hidden" id="createRoom">
 <h2>部屋を作る（GM）</h2>
 <p>使用するキャラクターを選んでください。</p>
- <label>ゲームマスター方式</label>
+
+<label>ゲームマスター方式</label>
 <select id="gmMode">
 <option value="ai">AIゲームマスター</option>
 <option value="human">人間ゲームマスター</option>
 </select>
-<p class="sub">AI GMを選ぶと、AIが進行役を担当することになります。</p>
+<p class="sub">AI GMを選ぶと、AIが進行役を担当する予定です。</p>
+
 <label>キャラクター</label>
 <select id="gmCharacter"></select>
+
 <button class="primary" id="createRoomButton" onclick="createRoom()">部屋を作成する</button>
 <button onclick="show('home')">戻る</button>
 </section>
@@ -217,10 +183,13 @@ label{font-size:13px;color:#d9b56d}
 <section class="panel hidden" id="joinRoom">
 <h2>部屋に参加する</h2>
 <p>GMから教えてもらった6桁の番号を入力してください。</p>
+
 <label>部屋番号</label>
 <input id="joinCode" inputmode="numeric" maxlength="6" placeholder="例：123456">
+
 <label>使用キャラクター</label>
 <select id="joinCharacter"></select>
+
 <button class="primary" id="joinRoomButton" onclick="joinRoom()">参加する</button>
 <button onclick="show('home')">戻る</button>
 </section>
@@ -237,8 +206,14 @@ label{font-size:13px;color:#d9b56d}
 </div>
 
 <div class="detail-block">
+<h3>ゲームマスター方式</h3>
+<p id="roomGMMode">未設定</p>
+</div>
+
+<div class="detail-block">
 <h3>ゲームモード</h3>
 <p id="modePermissionText">GMがゲームモードを選択します。</p>
+
 <label>現在のゲームモード</label>
 <select id="roomSystem" onchange="changeRoomSystem()">
 <option value="クトゥルフ神話TRPG">クトゥルフ神話TRPG</option>
@@ -257,11 +232,26 @@ label{font-size:13px;color:#d9b56d}
 </section>
 
 <script type="module">
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/13.4.0/firebase-app.js";
-import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/13.4.0/firebase-auth.js";
+
 import {
- getFirestore, collection, doc, setDoc, getDoc, getDocs,
- updateDoc, deleteDoc, onSnapshot, serverTimestamp
+ getAuth,
+ signInAnonymously,
+ onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/13.4.0/firebase-auth.js";
+
+import {
+ getFirestore,
+ collection,
+ doc,
+ setDoc,
+ getDoc,
+ getDocs,
+ updateDoc,
+ deleteDoc,
+ onSnapshot,
+ serverTimestamp
 } from "https://www.gstatic.com/firebasejs/13.4.0/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -283,19 +273,20 @@ let activeRoom = null;
 let isGM = false;
 let roomUnsubscribe = null;
 let playersUnsubscribe = null;
-let currentSystem = "ファンタジーTRPG";
+let currentSystem = "クトゥルフ神話TRPG";
 let editingIndex = -1;
 let viewingIndex = -1;
 let remainingRolls = 3;
 
 const statIds = [
- "str","agi","int","vit","men",
- "app","siz","edu"
+ "str","agi","int","vit","men","app","siz","edu"
 ];
+
 const $ = id => document.getElementById(id);
 
 let resolveAuth;
 let rejectAuth;
+
 const authReady = new Promise((resolve,reject)=>{
  resolveAuth=resolve;
  rejectAuth=reject;
@@ -319,22 +310,27 @@ async function waitForLogin(){
 }
 
 function show(id){
- document.querySelectorAll("section").forEach(s=>s.classList.add("hidden"));
+ document.querySelectorAll("section").forEach(s=>{
+  s.classList.add("hidden");
+ });
  $(id).classList.remove("hidden");
  window.scrollTo(0,0);
 }
 window.show=show;
 
 function getCharacters(){
- try{return JSON.parse(localStorage.getItem("miyaCharacters")||"[]");}
- catch(e){return [];}
+ try{
+  return JSON.parse(localStorage.getItem("miyaCharacters")||"[]");
+ }catch(e){
+  return [];
+ }
 }
 
 function resetDice(){
  remainingRolls=3;
  $("rollCount").textContent="残り振り直し：3回";
  $("rollButton").disabled=false;
- $("rollMessage").textContent="ダイスを振ると6つの能力値が決まります。";
+ $("rollMessage").textContent="ダイスを振ると能力値が決まります。";
 }
 
 function rollDice(count,sides){
@@ -351,7 +347,6 @@ function rollStats(){
   return;
  }
 
- // 第6版の能力値算出方式
  $("str").value=rollDice(3,6)*5;
  $("agi").value=rollDice(3,6)*5;
  $("vit").value=rollDice(3,6)*5;
@@ -362,15 +357,14 @@ function rollStats(){
  $("siz").value=(rollDice(2,6)+6)*5;
  $("edu").value=(rollDice(3,6)+3)*5;
 
- // 派生ステータス
  $("idea").value=Number($("int").value);
  $("luck").value=Number($("men").value);
  $("knowledge").value=Number($("edu").value);
 
- // HP・MP・SAN
  $("hp").value=Math.floor(
   (Number($("vit").value)+Number($("siz").value))/10
  );
+
  $("mp").value=Math.floor(Number($("men").value)/5);
  $("san").value=Number($("men").value);
 
@@ -380,7 +374,7 @@ function rollStats(){
 
  if(remainingRolls===0){
   $("rollButton").disabled=true;
-  $("rollMessage").textContent+="　ダイスは終了です！";
+  $("rollMessage").textContent+=" ダイスは終了です！";
  }
 }
 window.rollStats=rollStats;
@@ -393,12 +387,17 @@ function disableDiceForEdit(){
 }
 
 function resetForm(){
- ["name","race","job","equipment","inventory","skills","profile"].forEach(id=>$(id).value="");
+ [
+  "name","race","job","equipment",
+  "inventory","skills","profile"
+ ].forEach(id=>{
+  $(id).value="";
+ });
 
- // 基本能力値
- statIds.forEach(id=>$(id).value=50);
+ statIds.forEach(id=>{
+  $(id).value=50;
+ });
 
- // 派生ステータス
  $("hp").value=10;
  $("mp").value=10;
  $("san").value=50;
@@ -412,6 +411,7 @@ function resetForm(){
 
 function newCharacter(){
  editingIndex=-1;
+ currentSystem="クトゥルフ神話TRPG";
  resetForm();
  resetDice();
  $("formTitle").textContent="CHARACTER CREATION";
@@ -427,7 +427,11 @@ window.openCharacters=openCharacters;
 
 function saveCharacter(){
  const name=$("name").value.trim();
- if(!name){alert("名前を入力してください！");return;}
+
+ if(!name){
+  alert("名前を入力してください！");
+  return;
+ }
 
  const list=getCharacters();
  const old=editingIndex>=0?list[editingIndex]:null;
@@ -435,13 +439,15 @@ function saveCharacter(){
 
  const save=data=>{
   const c={
-   name,
+   name:name,
    race:$("race").value,
    job:$("job").value,
    system:currentSystem,
    hp:$("hp").value,
    mp:$("mp").value,
-   stats:Object.fromEntries(statIds.map(id=>[id,$(id).value])),
+   stats:Object.fromEntries(
+    statIds.map(id=>[id,Number($(id).value)||0])
+   ),
    san:$("san").value,
    equipment:$("equipment").value,
    inventory:$("inventory").value,
@@ -451,8 +457,11 @@ function saveCharacter(){
    imageMode:$("imageMode").value
   };
 
-  if(editingIndex>=0)list[editingIndex]=c;
-  else list.push(c);
+  if(editingIndex>=0){
+   list[editingIndex]=c;
+  }else{
+   list.push(c);
+  }
 
   try{
    localStorage.setItem("miyaCharacters",JSON.stringify(list));
@@ -468,9 +477,19 @@ function saveCharacter(){
    alert("画像は1.5MB以下にしてください。");
    return;
   }
+
   const reader=new FileReader();
-  reader.onload=()=>save(reader.result);
+
+  reader.onload=()=>{
+   save(reader.result);
+  };
+
+  reader.onerror=()=>{
+   alert("画像を読み込めませんでした。");
+  };
+
   reader.readAsDataURL(file);
+
  }else{
   save(old?old.image||"":"");
  }
@@ -479,13 +498,18 @@ window.saveCharacter=saveCharacter;
 
 function escapeHTML(value){
  return String(value??"").replace(/[&<>"']/g,c=>({
-  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  "&":"&amp;",
+  "<":"&lt;",
+  ">":"&gt;",
+  '"':"&quot;",
+  "'":"&#39;"
  }[c]));
 }
 
 function renderCharacters(){
  const list=$("characterList");
  list.innerHTML="";
+
  const chars=getCharacters();
 
  if(!chars.length){
@@ -498,8 +522,16 @@ function renderCharacters(){
   card.className="card";
 
   const img=document.createElement("img");
-  img.src=c.image || "無題107_20261124115304.png";
-  if(c.imageMode==="icon")img.className="icon";
+  img.src=c.image||"default-character.png";
+  img.onerror=function(){
+   this.onerror=null;
+   this.src="default-character.png";
+  };
+
+  if(c.imageMode==="icon"){
+   img.className="icon";
+  }
+
   card.appendChild(img);
 
   const info=document.createElement("div");
@@ -509,7 +541,10 @@ function renderCharacters(){
   title.textContent=c.name;
 
   const detail=document.createElement("p");
-  detail.textContent=(c.system||"")+" / "+(c.race||"未設定")+" / "+(c.job||"未設定");
+  detail.textContent=
+   (c.system||"クトゥルフ神話TRPG")+" / "+
+   (c.race||"未設定")+" / "+
+   (c.job||"未設定");
 
   const actions=document.createElement("div");
   actions.className="card-actions";
@@ -531,49 +566,80 @@ function renderCharacters(){
 
 function openDetail(index){
  viewingIndex=index;
+
  const c=getCharacters()[index];
  if(!c)return;
 
  const s=c.stats||{};
- let html=`<h2>${escapeHTML(c.name)}</h2><p>${escapeHTML(c.system||"")}</p>`;
+ const content=$("detailContent");
+
+ content.innerHTML="";
+
+ const title=document.createElement("h2");
+ title.textContent=c.name;
+ content.appendChild(title);
+
+ const system=document.createElement("p");
+ system.textContent=c.system||"クトゥルフ神話TRPG";
+ content.appendChild(system);
 
  const img=document.createElement("img");
-img.src=c.image || "無題107_20261124115304.png";
+ img.src=c.image||"default-character.png";
+ img.className="detail-image";
 
-img.onerror=function(){
+ img.onerror=function(){
   this.onerror=null;
-  this.src="無題107_20261124115304.png";
-};
+  this.src="default-character.png";
+ };
 
-if(c.imageMode==="icon")img.className="icon";
-card.appendChild(img);
+ if(c.imageMode==="icon"){
+  img.classList.add("icon");
+ }
 
- html+=`<div class="detail-block"><h3>基本情報</h3>
+ content.appendChild(img);
+
+ let html=`
+ <div class="detail-block">
+ <h3>基本情報</h3>
  <p>種族・出自：${escapeHTML(c.race||"未設定")}</p>
- <p>職業・役割：${escapeHTML(c.job||"未設定")}</p></div>`;
+ <p>職業・役割：${escapeHTML(c.job||"未設定")}</p>
+ </div>
 
- html+=`<div class="stats">
+ <div class="stats">
  <div class="stat">HP：${escapeHTML(c.hp??10)}</div>
  <div class="stat">MP：${escapeHTML(c.mp??10)}</div>
- <div class="stat">筋力：${escapeHTML(s.str??10)}</div>
- <div class="stat">敏捷：${escapeHTML(s.agi??10)}</div>
- <div class="stat">知力：${escapeHTML(s.int??10)}</div>
- <div class="stat">体力：${escapeHTML(s.vit??10)}</div>
- <div class="stat">精神：${escapeHTML(s.men??10)}</div>
- <div class="stat">器用：${escapeHTML(s.dex??10)}</div></div>`;
+ <div class="stat">SAN：${escapeHTML(c.san??50)}</div>
+ <div class="stat">筋力：${escapeHTML(s.str??50)}</div>
+ <div class="stat">敏捷：${escapeHTML(s.agi??50)}</div>
+ <div class="stat">知力：${escapeHTML(s.int??50)}</div>
+ <div class="stat">体力：${escapeHTML(s.vit??50)}</div>
+ <div class="stat">精神：${escapeHTML(s.men??50)}</div>
+ <div class="stat">外見：${escapeHTML(s.app??50)}</div>
+ <div class="stat">体格：${escapeHTML(s.siz??50)}</div>
+ <div class="stat">教育：${escapeHTML(s.edu??50)}</div>
+ <div class="stat">アイデア：${escapeHTML(s.int??50)}</div>
+ <div class="stat">幸運：${escapeHTML(s.men??50)}</div>
+ <div class="stat">知識：${escapeHTML(s.edu??50)}</div>
+ </div>
+ `;
 
  html+=detailBlock("装備",c.equipment);
  html+=detailBlock("持ち物",c.inventory);
  html+=detailBlock("スキル・特技",c.skills);
  html+=detailBlock("プロフィール",c.profile);
 
- $("detailContent").innerHTML=html;
+ content.insertAdjacentHTML("beforeend",html);
  show("detail");
 }
 window.openDetail=openDetail;
 
 function detailBlock(title,value){
- return `<div class="detail-block"><h3>${title}</h3><p>${escapeHTML(value||"なし")}</p></div>`;
+ return `
+ <div class="detail-block">
+ <h3>${escapeHTML(title)}</h3>
+ <p>${escapeHTML(value||"なし")}</p>
+ </div>
+ `;
 }
 
 function editCharacter(){
@@ -581,19 +647,26 @@ function editCharacter(){
  if(!c)return;
 
  editingIndex=viewingIndex;
- currentSystem=c.system||"ファンタジーTRPG";
+ currentSystem=c.system||"クトゥルフ神話TRPG";
 
- ["name","race","job","hp","mp","equipment","inventory","skills","profile"].forEach(id=>{
-  $(id).value=c[id]??(id==="hp"||id==="mp"?10:"");
+ [
+  "name","race","job","hp","mp",
+  "equipment","inventory","skills","profile"
+ ].forEach(id=>{
+  $(id).value=c[id]??"";
  });
 
  const s=c.stats||{};
- statIds.forEach(id=>$(id).value=s[id]??10);
-$("san").value=c.san??50;
-$("idea").value=Number(s.int??50);
-$("luck").value=Number(s.men??50);
-$("knowledge").value=Number(s.edu??50);
- 
+
+ statIds.forEach(id=>{
+  $(id).value=s[id]??50;
+ });
+
+ $("san").value=c.san??50;
+ $("idea").value=Number(s.int??50);
+ $("luck").value=Number(s.men??50);
+ $("knowledge").value=Number(s.edu??50);
+
  $("image").value="";
  $("imageMode").value=c.imageMode||"portrait";
  $("formTitle").textContent="EDIT CHARACTER";
@@ -608,6 +681,7 @@ function deleteCharacter(index){
 
  const list=getCharacters();
  list.splice(index,1);
+
  localStorage.setItem("miyaCharacters",JSON.stringify(list));
  renderCharacters();
 }
@@ -615,6 +689,7 @@ function deleteCharacter(index){
 function fillCharacterSelect(id){
  const select=$(id);
  select.innerHTML="";
+
  const chars=getCharacters();
 
  chars.forEach((c,i)=>{
@@ -630,24 +705,27 @@ function fillCharacterSelect(id){
 async function showCreateRoom(){
  try{
   await waitForLogin();
+
+  $("createRoomButton").disabled=false;
+
   if(!fillCharacterSelect("gmCharacter")){
    alert("先にキャラクターを作成してください！");
    show("character");
    return;
   }
+
   show("createRoom");
+
  }catch(e){
   alert("ログインできませんでした："+e.message);
  }
 }
 window.showCreateRoom=showCreateRoom;
 
-
 async function showJoin(){
  try{
   await waitForLogin();
 
-  // 参加画面を開くたびにボタンを有効化
   $("joinRoomButton").disabled=false;
 
   if(!fillCharacterSelect("joinCharacter")){
@@ -665,17 +743,11 @@ async function showJoin(){
 }
 window.showJoin=showJoin;
 
-
 function makeCode(){
  return String(Math.floor(100000+Math.random()*900000));
 }
 
-/*
- オンライン保存用のデータを作る。
- 画像は送らず、各項目を文字列・数値に変換して
- フラットなデータとして保存する。
-*/
- 
+/* 画像を小さく圧縮する */
 function compressImage(dataUrl){
  return new Promise((resolve,reject)=>{
   if(!dataUrl){
@@ -687,7 +759,7 @@ function compressImage(dataUrl){
 
   img.onload=()=>{
    const canvas=document.createElement("canvas");
-   const maxSize=300;
+   const maxSize=240;
 
    let width=img.width;
    let height=img.height;
@@ -708,18 +780,35 @@ function compressImage(dataUrl){
    canvas.height=height;
 
    const ctx=canvas.getContext("2d");
+
+   if(!ctx){
+    reject(new Error("画像を圧縮できませんでした。"));
+    return;
+   }
+
    ctx.drawImage(img,0,0,width,height);
 
-   resolve(canvas.toDataURL("image/jpeg",0.6));
+   const compressed=canvas.toDataURL("image/jpeg",0.5);
+
+   /* Firestoreのドキュメント容量に余裕を持たせる */
+   if(compressed.length>700000){
+    reject(new Error("画像が大きすぎます。別の画像を選んでください。"));
+    return;
+   }
+
+   resolve(compressed);
   };
 
-  img.onerror=()=>reject(new Error("画像を圧縮できませんでした。"));
+  img.onerror=()=>{
+   reject(new Error("画像を読み込めませんでした。"));
+  };
+
   img.src=dataUrl;
  });
 }
 
-function makePlayerData(c,gm)
- async function makePlayerData(c,gm){
+/* オンライン保存用の参加者データ */
+async function makePlayerData(c,gm){
  const s=c.stats||{};
  const image=await compressImage(c.image||"");
 
@@ -791,17 +880,23 @@ async function createRoom(){
    code:code,
    gmUid:uid,
    system:"クトゥルフ神話TRPG",
+   gmMode:$("gmMode").value,
    createdAt:serverTimestamp()
   });
 
   try{
+   const playerData=await makePlayerData(c,true);
+
    await setDoc(
     doc(db,"rooms",code,"players",uid),
-    await makePlayerData(c,true)
+    playerData
    );
+
   }catch(playerError){
-   // 参加者登録に失敗した場合、作成した部屋を片付ける
-   try{await deleteDoc(roomRef);}catch(cleanupError){}
+   try{
+    await deleteDoc(roomRef);
+   }catch(cleanupError){}
+
    throw playerError;
   }
 
@@ -846,9 +941,11 @@ async function joinRoom(){
    return;
   }
 
+  const playerData=await makePlayerData(c,false);
+
   await setDoc(
    doc(db,"rooms",code,"players",uid),
-   await makePlayerData(c,false)
+   playerData
   );
 
   enterRoom(code,false);
@@ -867,6 +964,7 @@ function enterRoom(code,gm){
  isGM=gm;
 
  $("roomCode").textContent=code;
+
  $("roomRole").textContent=gm
   ?"あなたはゲームマスター（GM）です。"
   :"プレイヤーとして参加中です。";
@@ -874,121 +972,141 @@ function enterRoom(code,gm){
  $("roomSystem").disabled=!gm;
 
  $("modePermissionText").textContent=gm
-  ?"ゲームマスターとして、ここからゲームモードを変更できます。変更は全員にリアルタイムで反映されます。"
-  :"ゲームモードを変更できるのはGMだけです。現在のモードを確認できます。";
+  ?"ゲームマスターとして、ゲームモードを変更できます。"
+  :"ゲームモードを変更できるのはGMだけです。";
 
  $("closeRoomButton").classList.toggle("hidden",!gm);
 
  if(roomUnsubscribe)roomUnsubscribe();
  if(playersUnsubscribe)playersUnsubscribe();
 
- roomUnsubscribe=onSnapshot(doc(db,"rooms",code),snap=>{
-  if(!snap.exists()){
-   alert("GMが部屋を解散しました。");
-   leaveRoomLocal();
-   show("home");
-   return;
-  }
-
-  const room=snap.data();
-  $("roomSystem").value=room.system||"クトゥルフ神話TRPG";
- });
-
- 
-playersUnsubscribe=onSnapshot(
- collection(db,"rooms",code,"players"),
- snap=>{
-  $("roomPlayers").innerHTML="";
-
-  snap.forEach(player=>{
-   const p=player.data();
-
-   const div=document.createElement("div");
-   div.className="player-item";
-
-   const header=document.createElement("div");
-   header.className="player-header";
-
-   const img=document.createElement("img");
-   img.className="player-image";
-   img.src=p.characterImage||"default-character.png";
-   img.alt="キャラクター画像";
-
-   img.onerror=function(){
-    this.onerror=null;
-    this.src="default-character.png";
-   };
-
-   if(p.imageMode==="icon"){
-    img.classList.add("icon");
+ roomUnsubscribe=onSnapshot(
+  doc(db,"rooms",code),
+  snap=>{
+   if(!snap.exists()){
+    alert("GMが部屋を解散しました。");
+    leaveRoomLocal();
+    show("home");
+    return;
    }
 
-   const info=document.createElement("div");
-   info.className="player-info";
+   const room=snap.data();
 
-   const title=document.createElement("h3");
-   title.textContent=p.characterName||p.name||"名前なし";
+   $("roomSystem").value=
+    room.system||"クトゥルフ神話TRPG";
 
-   const role=document.createElement("p");
-   role.textContent=p.isGM?"ゲームマスター（GM）":"プレイヤー";
+   $("roomGMMode").textContent=
+    room.gmMode==="ai"
+     ?"AIゲームマスター"
+     :"人間ゲームマスター";
+  },
+  error=>{
+   console.error("部屋情報エラー：",error);
+   alert("部屋情報を読み込めませんでした。");
+  }
+ );
 
-   const job=document.createElement("p");
-   job.textContent="職業："+(p.characterJob||"未設定");
+ playersUnsubscribe=onSnapshot(
+  collection(db,"rooms",code,"players"),
+  snap=>{
+   $("roomPlayers").innerHTML="";
 
-   const race=document.createElement("p");
-   race.textContent="種族・出自："+(p.characterRace||"未設定");
+   if(snap.empty){
+    $("roomPlayers").textContent="参加者はいません。";
+    return;
+   }
 
-   info.append(title,role,job,race);
-   header.append(img,info);
-   div.appendChild(header);
+   snap.forEach(player=>{
+    const p=player.data();
 
-   const stats=document.createElement("div");
-   stats.className="player-stats";
+    const div=document.createElement("div");
+    div.className="player-item";
 
-   const statList=[
-    ["HP",p.characterHp],
-    ["MP",p.characterMp],
-    ["SAN",p.characterSan],
-    ["STR",p.statStr],
-    ["DEX",p.statAgi],
-    ["INT",p.statInt],
-    ["CON",p.statVit],
-    ["POW",p.statMen],
-    ["APP",p.statApp],
-    ["SIZ",p.statSiz],
-    ["EDU",p.statEdu],
-    ["アイデア",p.statIdea],
-    ["幸運",p.statLuck],
-    ["知識",p.statKnowledge]
-   ];
+    const header=document.createElement("div");
+    header.className="player-header";
 
-   statList.forEach(([label,value])=>{
-    const item=document.createElement("div");
-    item.className="player-stat";
-    item.textContent=label+"："+(value??0);
-    stats.appendChild(item);
+    const img=document.createElement("img");
+    img.className="player-image";
+    img.src=p.characterImage||"default-character.png";
+    img.alt="キャラクター画像";
+
+    img.onerror=function(){
+     this.onerror=null;
+     this.src="default-character.png";
+    };
+
+    if(p.imageMode==="icon"){
+     img.classList.add("icon");
+    }
+
+    const info=document.createElement("div");
+    info.className="player-info";
+
+    const title=document.createElement("h3");
+    title.textContent=p.characterName||p.name||"名前なし";
+
+    const role=document.createElement("p");
+    role.textContent=p.isGM
+     ?"ゲームマスター（GM）"
+     :"プレイヤー";
+
+    const job=document.createElement("p");
+    job.textContent="職業："+(p.characterJob||"未設定");
+
+    const race=document.createElement("p");
+    race.textContent="種族・出自："+(p.characterRace||"未設定");
+
+    info.append(title,role,job,race);
+    header.append(img,info);
+    div.appendChild(header);
+
+    const stats=document.createElement("div");
+    stats.className="player-stats";
+
+    const statList=[
+     ["HP",p.characterHp],
+     ["MP",p.characterMp],
+     ["SAN",p.characterSan],
+     ["STR",p.statStr],
+     ["DEX",p.statAgi],
+     ["INT",p.statInt],
+     ["CON",p.statVit],
+     ["POW",p.statMen],
+     ["APP",p.statApp],
+     ["SIZ",p.statSiz],
+     ["EDU",p.statEdu],
+     ["アイデア",p.statIdea],
+     ["幸運",p.statLuck],
+     ["知識",p.statKnowledge]
+    ];
+
+    statList.forEach(([label,value])=>{
+     const item=document.createElement("div");
+     item.className="player-stat";
+     item.textContent=label+"："+(value??0);
+     stats.appendChild(item);
+    });
+
+    div.appendChild(stats);
+
+    const extra=document.createElement("div");
+    extra.className="player-extra";
+
+    extra.textContent=
+     "装備："+(p.equipment||"なし")+"\n"+
+     "持ち物："+(p.inventory||"なし")+"\n"+
+     "スキル："+(p.skills||"なし")+"\n"+
+     "プロフィール："+(p.profile||"なし");
+
+    div.appendChild(extra);
+    $("roomPlayers").appendChild(div);
    });
-
-   div.appendChild(stats);
-
-   const extra=document.createElement("div");
-   extra.className="player-extra";
-
-   extra.textContent=
-    "装備："+(p.equipment||"なし")+"\n"+
-    "持ち物："+(p.inventory||"なし")+"\n"+
-    "スキル："+(p.skills||"なし")+"\n"+
-    "プロフィール："+(p.profile||"なし");
-
-   div.appendChild(extra);
-   $("roomPlayers").appendChild(div);
-  });
- },
- error=>{
-  console.error("参加者一覧エラー：",error);
- }
-);
-
+  },
+  error=>{
+   console.error("参加者一覧エラー：",error);
+   alert("参加者一覧を読み込めませんでした："+error.message);
+  }
+ );
 
  show("room");
 }
@@ -1002,9 +1120,10 @@ async function changeRoomSystem(){
  }
 
  try{
-  await updateDoc(doc(db,"rooms",activeRoom),{
-   system:$("roomSystem").value
-  });
+  await updateDoc(
+   doc(db,"rooms",activeRoom),
+   {system:$("roomSystem").value}
+  );
  }catch(e){
   alert("モードを変更できませんでした："+e.message);
  }
@@ -1013,11 +1132,15 @@ window.changeRoomSystem=changeRoomSystem;
 
 async function closeRoom(){
  if(!isGM||!activeRoom)return;
+
  if(!confirm("部屋を解散しますか？"))return;
 
  try{
   const code=activeRoom;
-  const playersSnap=await getDocs(collection(db,"rooms",code,"players"));
+
+  const playersSnap=await getDocs(
+   collection(db,"rooms",code,"players")
+  );
 
   for(const player of playersSnap.docs){
    await deleteDoc(player.ref);
@@ -1035,12 +1158,13 @@ async function closeRoom(){
 }
 window.closeRoom=closeRoom;
 
-
 async function leaveRoom(){
  if(!activeRoom)return;
 
  try{
-  await deleteDoc(doc(db,"rooms",activeRoom,"players",uid));
+  await deleteDoc(
+   doc(db,"rooms",activeRoom,"players",uid)
+  );
  }catch(e){
   console.error(e);
  }
@@ -1049,7 +1173,6 @@ async function leaveRoom(){
  show("home");
 }
 window.leaveRoom=leaveRoom;
-
 
 function leaveRoomLocal(){
  if(roomUnsubscribe)roomUnsubscribe();
@@ -1060,11 +1183,10 @@ function leaveRoomLocal(){
  activeRoom=null;
  isGM=false;
 
- // 退出後、ボタンを再び有効化
  $("joinRoomButton").disabled=false;
  $("createRoomButton").disabled=false;
 }
 
- </script>
+</script>
 </body>
 </html>
