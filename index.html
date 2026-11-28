@@ -848,7 +848,7 @@ async function joinRoom(){
 
   await setDoc(
    doc(db,"rooms",code,"players",uid),
-   makePlayerData(c,false)
+   await makePlayerData(c,false)
   );
 
   enterRoom(code,false);
