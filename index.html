@@ -718,29 +718,46 @@ function compressImage(dataUrl){
  });
 }
 
-function makePlayerData(c,gm){
+function makePlayerData(c,gm)
+ async function makePlayerData(c,gm){
  const s=c.stats||{};
+ const image=await compressImage(c.image||"");
 
  return {
   uid:uid,
   name:String(c.name||""),
   isGM:gm,
+
   characterName:String(c.name||""),
   characterRace:String(c.race||""),
   characterJob:String(c.job||""),
   characterSystem:String(c.system||""),
+
   characterHp:Number(c.hp)||0,
   characterMp:Number(c.mp)||0,
+  characterSan:Number(c.san)||0,
+
   statStr:Number(s.str)||0,
   statAgi:Number(s.agi)||0,
   statInt:Number(s.int)||0,
   statVit:Number(s.vit)||0,
   statMen:Number(s.men)||0,
-  statDex:Number(s.dex)||0,
+  statApp:Number(s.app)||0,
+  statSiz:Number(s.siz)||0,
+  statEdu:Number(s.edu)||0,
+
+  statIdea:Number(s.int)||0,
+  statLuck:Number(s.men)||0,
+  statKnowledge:Number(s.edu)||0,
+
+  characterImage:image,
+  imageMode:String(c.imageMode||"portrait"),
+
   equipment:String(c.equipment||""),
   inventory:String(c.inventory||""),
   skills:String(c.skills||""),
   profile:String(c.profile||""),
+
   joinedAt:serverTimestamp()
  };
 }
