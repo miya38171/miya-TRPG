@@ -797,7 +797,7 @@ async function createRoom(){
   try{
    await setDoc(
     doc(db,"rooms",code,"players",uid),
-    makePlayerData(c,true)
+    await makePlayerData(c,true)
    );
   }catch(playerError){
    // 参加者登録に失敗した場合、作成した部屋を片付ける
